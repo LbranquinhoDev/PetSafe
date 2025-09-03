@@ -1,3 +1,7 @@
+import React from 'react';
+import LayoutPadrao from '../../components/LayoutPadrao';
+
+
 const Sobre = () => {
     return (
         <div>

@@ -1,34 +1,132 @@
+/* Navbar.module.css */
 .navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(18, 18, 18, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 999;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #f7f7f7;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #ff6b6b;
-}
-
-.navLinks {
-  list-style: none;
+.navLogo {
   display: flex;
-  gap: 1.5rem;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5rem;
 }
 
-.navLinks li a {
+.navLogo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.navMenu {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.navLink {
+  color: #f0f0f0;
   text-decoration: none;
-  color: #333;
   font-weight: 500;
   transition: color 0.3s ease;
+  position: relative;
 }
 
-.navLinks li a:hover {
-  color: #ff6b6b;
+.navLink:hover {
+  color: #4361ee;
+}
+
+.navLink.ativo {
+  color: #4361ee;
+}
+
+.navLink.ativo::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #4361ee;
+}
+
+.navCta {
+  background: #4361ee;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.navCta:hover {
+  background: #3a0ca3;
+  transform: translateY(-2px);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  margin: 3px 0;
+  transition: 0.3s;
+}
+
+/* Responsividade */
+@media (max-width: 968px) {
+  .hamburger {
+    display: flex;
+  }
+  
+  .navMenu {
+    position: fixed;
+    left: -100%;
+    top: 70px;
+    flex-direction: column;
+    background: rgba(18, 18, 18, 0.98);
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+    padding: 20px 0;
+    gap: 20px;
+  }
+  
+  .navMenu.ativo {
+    left: 0;
+  }
+  
+  .hamburger.ativo .bar:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.ativo .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  
+  .hamburger.ativo .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
 }

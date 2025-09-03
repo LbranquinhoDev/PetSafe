@@ -3,7 +3,7 @@ import Navbar from './components/Navbar';
 
 import Home from './pages/Home';
 import Sobre from './pages/Sobre';
-
+import Agendamento from './pages/Agendamento';
 
 const AppRouter = () => {
     return (
@@ -11,7 +11,9 @@ const AppRouter = () => {
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/sobre" element={<Sobre />} />                
+                <Route path="/sobre" element={<Sobre />} />      
+                <Route path="*" element={<h1>404 - Página não encontrada</h1>} />
+                <Route path="/agendamento" element={<Agendamento/>} />        
             </Routes>
                 
         </Router>

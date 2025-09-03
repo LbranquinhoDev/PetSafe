@@ -1,0 +1,62 @@
+/* LayoutPadrao.module.css */
+.layout {
+  background-color: #121212;
+  color: #f0f0f0;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.conteudo {
+  flex: 1;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  padding-top: 100px; /* espaço para a navbar fixa */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.overlayAtivo {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Animações */
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.active {
+  animation: fadeSlide 0.8s ease forwards;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .conteudo {
+    padding-top: 90px;
+  }
+}
