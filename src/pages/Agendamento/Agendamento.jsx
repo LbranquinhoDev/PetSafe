@@ -1,392 +1,322 @@
+// src/pages/Agendamento/Agendamento.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import styles from "/src/pages/Agendamento/Agendamento.module.css";
-import LayoutPadrao from '../../components/LayoutPadrao';
+import styles from './Agendamento.module.css';
 
 const Agendamento = () => {
-  const [activeTab, setActiveTab] = useState('login');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [selectedService, setSelectedService] = useState('');
-  const [step, setStep] = useState(1); // 1: Login, 2: Selecionar serviço, 3: Selecionar data/hora, 4: Confirmar
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState({
+    service: '',
+    date: '',
+    time: '',
+    petName: '',
+    petBreed: '',
+    petAge: '',
+    observations: ''
+  });
 
-  // Dados de exemplo
-  const services = [
-    { id: 1, name: 'Banho e Tosa', duration: '60 min', price: 'R$ 60,00' },
-    { id: 2, name: 'Consulta Veterinária', duration: '30 min', price: 'R$ 120,00' },
-    { id: 3, name: 'Passeio com Pet', duration: '45 min', price: 'R$ 35,00' },
-    { id: 4, name: 'Hospedagem', duration: 'Período', price: 'R$ 90,00/dia' },
-    { id: 5, name: 'Taxi Dog', duration: 'Variável', price: 'R$ 40,00' },
-    { id: 6, name: 'Creche para Pets', duration: 'Período', price: 'R$ 70,00/dia' }
-  ];
-
-  // Horários disponíveis (exemplo)
-  const availableTimes = [
-    '08:00', '09:00', '10:00', '11:00', '14:00', '15:00', 
-    '16:00', '17:00', '18:00'
-  ];
-
-  // Próximas datas disponíveis
-  const availableDates = [];
-  const today = new Date();
-  for (let i = 1; i <= 7; i++) {
-    const date = new Date();
-    date.setDate(today.getDate() + i);
-    if (date.getDay() !== 0) { // Não mostrar domingos
-      availableDates.push(date.toISOString().split('T')[0]);
+  const steps = [
+    {
+      id: 1,
+      title: "Seleção de Serviço",
+      status: currentStep > 1 ? "completed" : currentStep === 1 ? "active" : "pending",
+      description: "Escolha o serviço para seu pet",
+      time: "Passo 1 de 4"
+    },
+    {
+      id: 2,
+      title: "Data e Horário",
+      status: currentStep > 2 ? "completed" : currentStep === 2 ? "active" : "pending",
+      description: "Selecione quando deseja agendar",
+      time: "Passo 2 de 4"
+    },
+    {
+      id: 3,
+      title: "Informações do Pet",
+      status: currentStep > 3 ? "completed" : currentStep === 3 ? "active" : "pending",
+      description: "Dados do seu animal",
+      time: "Passo 3 de 4"
+    },
+    {
+      id: 4,
+      title: "Confirmação",
+      status: currentStep === 4 ? "active" : "pending",
+      description: "Revise e confirme o agendamento",
+      time: "Passo 4 de 4"
     }
-  }
+  ];
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Lógica de login aqui
-    setIsLoggedIn(true);
-    setStep(2);
+  const nextStep = () => {
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    // Lógica de registro aqui
-    setIsLoggedIn(true);
-    setStep(2);
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
   };
 
-  const handleServiceSelect = (serviceId) => {
-    setSelectedService(serviceId);
-    setStep(3);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleServiceSelect = (service) => {
+    setFormData(prev => ({
+      ...prev,
+      service
+    }));
+    nextStep();
   };
 
   const handleDateTimeSelect = (date, time) => {
-    setSelectedDate(date);
-    setSelectedTime(time);
-    setStep(4);
+    setFormData(prev => ({
+      ...prev,
+      date,
+      time
+    }));
+    nextStep();
   };
 
-  const handleConfirmAgendamento = () => {
-    // Lógica para confirmar o agendamento
+  const handleSubmit = () => {
     alert('Agendamento confirmado com sucesso!');
-    // Redirecionar ou limpar o formulário
-  };
-
-  const formatDate = (dateString) => {
-    const options = { weekday: 'short', day: 'numeric', month: 'short' };
-    return new Date(dateString).toLocaleDateString('pt-BR', options);
+    // Aqui você faria a submissão para sua API
   };
 
   return (
-    <LayoutPadrao>
-      <div className={styles.agendamentoContainer}>
-        <div className={styles.agendamentoHeader}>
-          <h1>Agendamento</h1>
-          <p>Agende os melhores cuidados para seu pet de forma rápida e fácil</p>
-        </div>
-
-        <div className={styles.agendamentoProgress}>
-          <div className={`${styles.progressStep} ${step >= 1 ? styles.active : ''}`}>
-            <span>1</span>
-            <p>Login</p>
-          </div>
-          <div className={`${styles.progressStep} ${step >= 2 ? styles.active : ''}`}>
-            <span>2</span>
-            <p>Serviço</p>
-          </div>
-          <div className={`${styles.progressStep} ${step >= 3 ? styles.active : ''}`}>
-            <span>3</span>
-            <p>Data/Hora</p>
-          </div>
-          <div className={`${styles.progressStep} ${step >= 4 ? styles.active : ''}`}>
-            <span>4</span>
-            <p>Confirmação</p>
-          </div>
-        </div>
-
-        <div className={styles.agendamentoContent}>
-          {/* Passo 1: Login/Cadastro */}
-          {step === 1 && (
-            <div className={styles.loginSection}>
-              <div className={styles.authTabs}>
-                <button 
-                  className={`${styles.tab} ${activeTab === 'login' ? styles.activeTab : ''}`}
-                  onClick={() => setActiveTab('login')}
-                >
-                  Login
-                </button>
-                <button 
-                  className={`${styles.tab} ${activeTab === 'register' ? styles.activeTab : ''}`}
-                  onClick={() => setActiveTab('register')}
-                >
-                  Cadastro
-                </button>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1>Agendamento</h1>
+        <p>Agende os serviços para seu pet em poucos passos</p>
+      </div>
+      
+      {/* Conteúdo do passo atual */}
+      <div className={styles.stepContent}>
+        {currentStep === 1 && (
+          <div className={styles.serviceSelection}>
+            <h2>Selecione o Serviço</h2>
+            <div className={styles.serviceGrid}>
+              <div 
+                className={`${styles.serviceCard} ${formData.service === 'Banho e Tosa' ? styles.selected : ''}`}
+                onClick={() => handleServiceSelect('Banho e Tosa')}
+              >
+                <div className={styles.serviceIcon}>🐕</div>
+                <h3>Banho e Tosa</h3>
+                <p>Banho completo, tosa higiênica e escovação</p>
+                <span className={styles.servicePrice}>R$ 60,00</span>
               </div>
-
-              {activeTab === 'login' ? (
-                <form className={styles.authForm} onSubmit={handleLogin}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="email">Email</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      placeholder="seu@email.com" 
-                      required 
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="password">Senha</label>
-                    <input 
-                      type="password" 
-                      id="password" 
-                      placeholder="Sua senha" 
-                      required 
-                    />
-                  </div>
-                  <div className={styles.formOptions}>
-                    <label className={styles.rememberMe}>
-                      <input type="checkbox" />
-                      Lembrar-me
-                    </label>
-                    <Link to="/recuperar-senha" className={styles.forgotPassword}>
-                      Esqueci a senha
-                    </Link>
-                  </div>
-                  <button type="submit" className={styles.authButton}>
-                    Entrar
-                  </button>
-                </form>
-              ) : (
-                <form className={styles.authForm} onSubmit={handleRegister}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="name">Nome completo</label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      placeholder="Seu nome completo" 
-                      required 
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="registerEmail">Email</label>
-                    <input 
-                      type="email" 
-                      id="registerEmail" 
-                      placeholder="seu@email.com" 
-                      required 
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="registerPassword">Senha</label>
-                    <input 
-                      type="password" 
-                      id="registerPassword" 
-                      placeholder="Crie uma senha" 
-                      required 
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="confirmPassword">Confirmar senha</label>
-                    <input 
-                      type="password" 
-                      id="confirmPassword" 
-                      placeholder="Confirme sua senha" 
-                      required 
-                    />
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="phone">Telefone</label>
-                    <input 
-                      type="tel" 
-                      id="phone" 
-                      placeholder="(11) 99999-9999" 
-                      required 
-                    />
-                  </div>
-                  <div className={styles.terms}>
-                    <label className={styles.termsLabel}>
-                      <input type="checkbox" required />
-                      <span>Concordo com os <Link to="/termos">termos de uso</Link> e <Link to="/privacidade">política de privacidade</Link></span>
-                    </label>
-                  </div>
-                  <button type="submit" className={styles.authButton}>
-                    Criar conta
-                  </button>
-                </form>
-              )}
-            </div>
-          )}
-
-          {/* Passo 2: Seleção de Serviço */}
-          {step === 2 && (
-            <div className={styles.serviceSection}>
-              <h2>Selecione o serviço desejado</h2>
-              <div className={styles.servicesGrid}>
-                {services.map(service => (
-                  <div 
-                    key={service.id} 
-                    className={`${styles.serviceCard} ${selectedService === service.id ? styles.selected : ''}`}
-                    onClick={() => handleServiceSelect(service.id)}
-                  >
-                    <div className={styles.serviceIcon}>
-                      <img src={`/icons/service-${service.id}.svg`} alt={service.name} />
-                    </div>
-                    <h3>{service.name}</h3>
-                    <p className={styles.serviceDuration}>{service.duration}</p>
-                    <p className={styles.servicePrice}>{service.price}</p>
-                  </div>
-                ))}
+              <div 
+                className={`${styles.serviceCard} ${formData.service === 'Consulta Veterinária' ? styles.selected : ''}`}
+                onClick={() => handleServiceSelect('Consulta Veterinária')}
+              >
+                <div className={styles.serviceIcon}>🏥</div>
+                <h3>Consulta Veterinária</h3>
+                <p>Check-up completo com veterinário especializado</p>
+                <span className={styles.servicePrice}>R$ 120,00</span>
+              </div>
+              <div 
+                className={`${styles.serviceCard} ${formData.service === 'Tosa Completa' ? styles.selected : ''}`}
+                onClick={() => handleServiceSelect('Tosa Completa')}
+              >
+                <div className={styles.serviceIcon}>✂️</div>
+                <h3>Tosa Completa</h3>
+                <p>Tosa estética de acordo com a raça do seu pet</p>
+                <span className={styles.servicePrice}>R$ 80,00</span>
+              </div>
+              <div 
+                className={`${styles.serviceCard} ${formData.service === 'Daycare' ? styles.selected : ''}`}
+                onClick={() => handleServiceSelect('Daycare')}
+              >
+                <div className={styles.serviceIcon}>🦴</div>
+                <h3>Daycare</h3>
+                <p>Cuidadoria durante o dia com atividades recreativas</p>
+                <span className={styles.servicePrice}>R$ 45,00</span>
               </div>
             </div>
-          )}
-
-          {/* Passo 3: Seleção de Data e Hora */}
-          {step === 3 && (
-            <div className={styles.datetimeSection}>
-              <h2>Selecione a data e horário</h2>
-              
-              <div className={styles.dateSelection}>
-                <h3>Data</h3>
-                <div className={styles.datesGrid}>
-                  {availableDates.map(date => (
-                    <button
-                      key={date}
-                      className={`${styles.dateButton} ${selectedDate === date ? styles.selected : ''}`}
-                      onClick={() => setSelectedDate(date)}
-                    >
-                      {formatDate(date)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {selectedDate && (
-                <div className={styles.timeSelection}>
-                  <h3>Horários disponíveis</h3>
-                  <div className={styles.timesGrid}>
-                    {availableTimes.map(time => (
-                      <button
-                        key={time}
-                        className={`${styles.timeButton} ${selectedTime === time ? styles.selected : ''}`}
-                        onClick={() => handleDateTimeSelect(selectedDate, time)}
+          </div>
+        )}
+        
+        {currentStep === 2 && (
+          <div className={styles.dateTimeSelection}>
+            <h2>Selecione Data e Horário</h2>
+            <div className={styles.calendarContainer}>
+              <div className={styles.calendar}>
+                <h3>Junho 2023</h3>
+                <div className={styles.calendarGrid}>
+                  <div className={styles.weekdays}>
+                    <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+                  </div>
+                  <div className={styles.days}>
+                    {[28, 29, 30, 31, 1, 2, 3].map(day => (
+                      <div key={day} className={styles.day}>{day}</div>
+                    ))}
+                    {[4, 5, 6, 7, 8, 9, 10].map(day => (
+                      <div 
+                        key={day} 
+                        className={`${styles.day} ${styles.available}`}
+                        onClick={() => handleDateTimeSelect(`2023-06-${day}`, '')}
                       >
-                        {time}
-                      </button>
+                        {day}
+                      </div>
+                    ))}
+                    {[11, 12, 13, 14, 15, 16, 17].map(day => (
+                      <div 
+                        key={day} 
+                        className={`${styles.day} ${styles.available}`}
+                        onClick={() => handleDateTimeSelect(`2023-06-${day}`, '')}
+                      >
+                        {day}
+                      </div>
+                    ))}
+                    {[18, 19, 20, 21, 22, 23, 24].map(day => (
+                      <div 
+                        key={day} 
+                        className={`${styles.day} ${styles.available}`}
+                        onClick={() => handleDateTimeSelect(`2023-06-${day}`, '')}
+                      >
+                        {day}
+                      </div>
+                    ))}
+                    {[25, 26, 27, 28, 29, 30, 1].map(day => (
+                      <div key={day} className={styles.day}>{day}</div>
                     ))}
                   </div>
                 </div>
-              )}
-            </div>
-          )}
-
-          {/* Passo 4: Confirmação */}
-          {step === 4 && (
-            <div className={styles.confirmationSection}>
-              <h2>Confirme seu agendamento</h2>
+              </div>
               
-              <div className={styles.confirmationDetails}>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Serviço:</span>
-                  <span className={styles.detailValue}>
-                    {services.find(s => s.id === selectedService)?.name}
-                  </span>
-                </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Data:</span>
-                  <span className={styles.detailValue}>
-                    {formatDate(selectedDate)}
-                  </span>
-                </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Horário:</span>
-                  <span className={styles.detailValue}>
-                    {selectedTime}
-                  </span>
-                </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Duração:</span>
-                  <span className={styles.detailValue}>
-                    {services.find(s => s.id === selectedService)?.duration}
-                  </span>
-                </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Preço:</span>
-                  <span className={styles.detailValue}>
-                    {services.find(s => s.id === selectedService)?.price}
-                  </span>
+              <div className={styles.timeSlots}>
+                <h3>Horários Disponíveis</h3>
+                <div className={styles.timeGrid}>
+                  {['08:00', '09:30', '11:00', '14:00', '15:30', '17:00'].map(time => (
+                    <div 
+                      key={time} 
+                      className={styles.timeSlot}
+                      onClick={() => handleDateTimeSelect(formData.date, time)}
+                    >
+                      {time}
+                    </div>
+                  ))}
                 </div>
               </div>
-
-              <div className={styles.petInfo}>
-                <h3>Informações do Pet</h3>
-                <form className={styles.petForm}>
-                  <div className={styles.formRow}>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="petName">Nome do Pet</label>
-                      <input 
-                        type="text" 
-                        id="petName" 
-                        placeholder="Nome do seu pet" 
-                        required 
-                      />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="petType">Tipo</label>
-                      <select id="petType" required>
-                        <option value="">Selecione</option>
-                        <option value="dog">Cachorro</option>
-                        <option value="cat">Gato</option>
-                        <option value="bird">Pássaro</option>
-                        <option value="other">Outro</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className={styles.formRow}>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="petBreed">Raça</label>
-                      <input 
-                        type="text" 
-                        id="petBreed" 
-                        placeholder="Raça do pet" 
-                      />
-                    </div>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="petAge">Idade</label>
-                      <input 
-                        type="number" 
-                        id="petAge" 
-                        placeholder="Idade em anos" 
-                        min="0" 
-                      />
-                    </div>
-                  </div>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="specialInstructions">Instruções especiais</label>
-                    <textarea 
-                      id="specialInstructions" 
-                      placeholder="Alguma informação importante que devemos saber sobre seu pet?"
-                      rows="3"
-                    ></textarea>
-                  </div>
-                </form>
-              </div>
-
-              <div className={styles.confirmationActions}>
-                <button 
-                  className={styles.backButton}
-                  onClick={() => setStep(3)}
-                >
+            </div>
+          </div>
+        )}
+        
+        {currentStep === 3 && (
+          <div className={styles.petInfo}>
+            <h2>Informações do Pet</h2>
+            <form className={styles.petForm}>
+              <input 
+                type="text" 
+                name="petName"
+                placeholder="Nome do Pet" 
+                value={formData.petName}
+                onChange={handleInputChange}
+              />
+              <input 
+                type="text" 
+                name="petBreed"
+                placeholder="Raça" 
+                value={formData.petBreed}
+                onChange={handleInputChange}
+              />
+              <input 
+                type="number" 
+                name="petAge"
+                placeholder="Idade" 
+                value={formData.petAge}
+                onChange={handleInputChange}
+              />
+              <textarea 
+                name="observations"
+                placeholder="Observações especiais"
+                value={formData.observations}
+                onChange={handleInputChange}
+              ></textarea>
+              
+              <div className={styles.formButtons}>
+                <button type="button" onClick={prevStep} className={styles.secondaryButton}>
                   Voltar
                 </button>
-                <button 
-                  className={styles.confirmButton}
-                  onClick={handleConfirmAgendamento}
-                >
+                <button type="button" onClick={nextStep} className={styles.primaryButton}>
+                  Continuar
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+        
+        {currentStep === 4 && (
+          <div className={styles.confirmation}>
+            <h2>Confirmação do Agendamento</h2>
+            <div className={styles.confirmationCard}>
+              <h3>Resumo do Agendamento</h3>
+              <p><strong>Serviço:</strong> {formData.service}</p>
+              <p><strong>Data:</strong> {formData.date}</p>
+              <p><strong>Horário:</strong> {formData.time}</p>
+              <p><strong>Pet:</strong> {formData.petName} ({formData.petBreed}, {formData.petAge} anos)</p>
+              {formData.observations && <p><strong>Observações:</strong> {formData.observations}</p>}
+              
+              <div className={styles.confirmationButtons}>
+                <button type="button" onClick={prevStep} className={styles.secondaryButton}>
+                  Editar
+                </button>
+                <button type="button" onClick={handleSubmit} className={styles.primaryButton}>
                   Confirmar Agendamento
                 </button>
               </div>
             </div>
-          )}
+          </div>
+        )}
+      </div>
+
+      {/* Stepper fixo na parte inferior */}
+      <div className={styles.stepperContainer}>
+        <div className={styles.stepperBox}>
+          {steps.map((step, index) => (
+            <div key={step.id} className={`${styles.stepperStep} ${styles[`stepper${step.status.charAt(0).toUpperCase() + step.status.slice(1)}`]}`}>
+              <div className={styles.stepperCircle}>
+                {step.status === "completed" ? (
+                  <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"></path>
+                  </svg>
+                ) : (
+                  step.id
+                )}
+              </div>
+              {index < steps.length - 1 && <div className={styles.stepperLine}></div>}
+              <div className={styles.stepperContent}>
+                <div className={styles.stepperTitle}>{step.title}</div>
+                <div className={styles.stepperStatus}>
+                  {step.status === "completed" ? "Concluído" : 
+                  step.status === "active" ? "Em Andamento" : "Pendente"}
+                </div>
+                <div className={styles.stepperTime}>{step.time}</div>
+              </div>
+            </div>
+          ))}
+
+          <div className={styles.stepperControls}>
+            <button className={styles.stepperButton} onClick={prevStep} disabled={currentStep === 1}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
+              </svg>
+              Anterior
+            </button>
+            <button className={`${styles.stepperButton} ${styles.stepperButtonPrimary}`} onClick={nextStep} disabled={currentStep === 4}>
+              Próximo
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-    </LayoutPadrao>
+    </div>
   );
 };
 

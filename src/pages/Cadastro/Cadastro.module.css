@@ -1,0 +1,157 @@
+/* src/pages/Cadastro/Cadastro.module.css */
+.cadastroContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a2e1a 0%, #1b5e20 50%, #388e3c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.cadastroCard {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 500px;
+  backdrop-filter: blur(10px);
+}
+
+.cadastroHeader {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.cadastroHeader h1 {
+  color: #1b5e20;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.cadastroHeader p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.cadastroForm {
+  margin-bottom: 2rem;
+}
+
+.inputGroup {
+  margin-bottom: 1.5rem;
+}
+
+.inputGroup label {
+  display: block;
+  color: #1b5e20;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.passwordInput {
+  position: relative;
+}
+
+.showPasswordBtn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.terms {
+  margin: 2rem 0;
+}
+
+.termsLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+.termsLabel input {
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.termsLabel a {
+  color: #4caf50;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.termsLabel a:hover {
+  text-decoration: underline;
+}
+
+.cadastroButton {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cadastroButton:hover {
+  transform: translateY(-2px);
+}
+
+.loginLink {
+  text-align: center;
+}
+
+.loginLink p {
+  color: #666;
+}
+
+.loginLink a {
+  color: #4caf50;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.loginLink a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .cadastroCard {
+    padding: 2rem;
+  }
+  
+  .cadastroHeader h1 {
+    font-size: 2rem;
+  }
+}

@@ -1,262 +1,182 @@
-import React, { useState, useEffect, useRef } from 'react';
+// src/pages/Home/Home.js
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
-import LayoutPadrao from '../../components/LayoutPadrao';
+import Botao from '../../components/Botao/Botao';
 
 const Home = () => {
-  const [animate, setAnimate] = useState(false);
-  const videoRef = useRef(null);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-
-  useEffect(() => {
-    setAnimate(true);
-    
-    // Intersection Observer para animações ao scroll
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.15
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(styles.visible);
-        }
-      });
-    }, observerOptions);
-    
-    // Observar todos os elementos com a classe observe
-    document.querySelectorAll(`.${styles.observe}`).forEach(el => {
-      observer.observe(el);
-    });
-    
-    return () => observer.disconnect();
-  }, []);
-
-  const toggleVideoPlay = () => {
-    if (videoRef.current) {
-      if (isVideoPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsVideoPlaying(!isVideoPlaying);
-    }
-  };
-
   return (
-    <LayoutPadrao>
-      {/* Hero Section com Vídeo de Fundo Animado */}
-      <section className={styles.hero}>
-        <div className={styles.heroVideoContainer}>
-          <video 
-            autoPlay 
-            muted 
-            loop 
-            playsInline 
-            className={styles.heroVideo}
-            poster="/images/hero-poster.jpg"
-          >
-            <source src="/videos/pets-hero-animated.mp4" type="video/mp4" />
-            Seu navegador não suporta vídeos HTML5.
-          </video>
-          <div className={styles.heroOverlay}></div>
+    <div className={styles.container}>
+      {/* Hero Section */}
+      <section className={styles.heroSection}>
+        <div className={styles.heroContent}>
+          <div className={styles.textContent}>
+            <span className={styles.preTitle}>Cuidado Premium para Seu Pet</span>
+            <h1 className={styles.mainTitle}>
+              <span className={styles.titleLine}>Seu Pet Merece o</span>
+              <span className={styles.titleHighlight}>Melhor Cuidado</span>
+            </h1>
+            <p className={styles.heroDescription}>
+              Na Pet Hero, oferecemos serviços premium de banho, tosa, cuidados veterinários 
+              e hospedagem para seu companheiro. Tecnologia avançada e amor pelos animais 
+              em cada detalhe.
+            </p>
+            <div className={styles.heroButtons}>
+              <Link to="/agendamento">
+                <Botao text="Agendar Serviço" variant="primary" />
+              </Link>
+              <Link to="/servicos">
+                <Botao text="Ver Serviços" variant="secondary" />
+              </Link>
+            </div>
+          </div>
+          <div className={styles.heroImage}>
+            <div className={styles.imagePlaceholder}>
+              <div className={styles.placeholderText}>
+                <span className={styles.imageIcon}>🐕</span>
+                <span>Imagem do Pet</span>
+              </div>
+            </div>
+          </div>
         </div>
         
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>
-            <span className={styles.titleLine}>Cuidamos do seu</span>
-            <span className={styles.titleLine}>pet com amor</span>
-          </h1>
-          <p className={styles.heroSubtitle}>Serviços personalizados para quem ama pets mas tem pouco tempo</p>
-          <div className={styles.ctaContainer}>
-            <Link to="/servicos" className={styles.ctaPrimary}>Conheça nossos serviços</Link>
-            <Link to="/agendamento" className={styles.ctaSecondary}>
-              <span>Agendar agora</span>
+        <div className={styles.statsContainer}>
+          <div className={styles.statItem}>
+            <div className={styles.statCircle}>
+              <span className={styles.statNumber}>2,500+</span>
+            </div>
+            <span className={styles.statLabel}>Pets Atendidos</span>
+          </div>
+          <div className={styles.statItem}>
+            <div className={styles.statCircle}>
+              <span className={styles.statNumber}>98%</span>
+            </div>
+            <span className={styles.statLabel}>Satisfação</span>
+          </div>
+          <div className={styles.statItem}>
+            <div className={styles.statCircle}>
+              <span className={styles.statNumber}>15</span>
+            </div>
+            <span className={styles.statLabel}>Profissionais</span>
+          </div>
+          <div className={styles.statItem}>
+            <div className={styles.statCircle}>
+              <span className={styles.statNumber}>24/7</span>
+            </div>
+            <span className={styles.statLabel}>Disponibilidade</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Preview */}
+      <section className={styles.servicesSection}>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>Nossos Serviços Premium</h2>
+          <p className={styles.sectionSubtitle}>Cuidados especializados para cada necessidade do seu pet</p>
+        </div>
+        
+        <div className={styles.servicesGrid}>
+          <div className={styles.serviceCard}>
+            <div className={styles.serviceIconContainer}>
+              <div className={styles.serviceIcon}>🚿</div>
+            </div>
+            <h3>Banho & Tosa</h3>
+            <p>Banho relaxante, tosa especializada e cuidados estéticos profissionais</p>
+            <Link to="/login" className={styles.serviceLink}>
+              <span>Saiba mais</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+          </div>
+          
+          <div className={styles.serviceCard}>
+            <div className={styles.serviceIconContainer}>
+              <div className={styles.serviceIcon}>🏥</div>
+            </div>
+            <h3>Veterinário</h3>
+            <p>Consultas, vacinas e tratamentos com especialistas qualificados</p>
+            <Link to="/servicos" className={styles.serviceLink}>
+              <span>Saiba mais</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+          </div>
+          
+          <div className={styles.serviceCard}>
+            <div className={styles.serviceIconContainer}>
+              <div className={styles.serviceIcon}>🏨</div>
+            </div>
+            <h3>Hospedagem</h3>
+            <p>Hotel 5 estrelas com monitoramento 24h e muito conforto</p>
+            <Link to="/servicos" className={styles.serviceLink}>
+              <span>Saiba mais</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </Link>
           </div>
         </div>
-
-        <div className={styles.scrollIndicator}>
-          <span>Scroll down</span>
-          <div className={styles.scrollArrow}></div>
-        </div>
       </section>
 
-      {/* Seção de Benefícios */}
-      <section className={`${styles.benefits} ${styles.observe}`}>
-        <div className={styles.sectionHeader}>
-          <h2>Por que escolher a PetSafe?</h2>
-          <p>Oferecemos o melhor cuidado para seu pet com conveniência e qualidade</p>
-        </div>
-        <div className={styles.cards}>
-          <div className={styles.card}>
-            <div className={styles.cardIcon}>
-              <div className={styles.iconWrapper}>
-                <img src="/icons/agendamento-icon.svg" alt="Agendamento flexível" />
-              </div>
-            </div>
-            <h3>Agendamento Flexível</h3>
-            <p>Você escolhe o horário, nós cuidamos do resto.</p>
-          </div>
-          <div className={styles.card}>
-            <div className={styles.cardIcon}>
-              <div className={styles.iconWrapper}>
-                <img src="/icons/especialistas-icon.svg" alt="Equipe especializada" />
-              </div>
-            </div>
-            <h3>Equipe Especializada</h3>
-            <p>Profissionais apaixonados por pets.</p>
-          </div>
-          <div className={styles.card}>
-            <div className={styles.cardIcon}>
-              <div className={styles.iconWrapper}>
-                <img src="/icons/rapido-icon.svg" alt="Atendimento rápido" />
-              </div>
-            </div>
-            <h3>Atendimento Rápido</h3>
-            <p>Serviços eficientes sem perder a qualidade.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Seção de Vídeo Demonstrativo */}
-      <section className={`${styles.videoSection} ${styles.observe}`}>
-        <div className={styles.videoContainer}>
-          <div className={styles.videoContent}>
-            <h2>Veja como funcionamos</h2>
-            <p>Conheça nossos processos e instalações em um tour virtual pela PetSafe</p>
-            <div className={styles.videoStats}>
-              <div className={styles.stat}>
-                <span className={styles.statNumber}>500+</span>
-                <span className={styles.statLabel}>Pets felizes</span>
-              </div>
-              <div className={styles.stat}>
-                <span className={styles.statNumber}>98%</span>
-                <span className={styles.statLabel}>Avaliação positiva</span>
-              </div>
-              <div className={styles.stat}>
-                <span className={styles.statNumber}>24/7</span>
-                <span className={styles.statLabel}>Suporte</span>
-              </div>
-            </div>
-          </div>
-          <div className={styles.videoPlayer}>
-            <div className={styles.videoWrapper}>
-              <video 
-                ref={videoRef}
-                className={styles.demoVideo}
-                poster="/images/video-poster.jpg"
-                onClick={toggleVideoPlay}
-              >
-                <source src="/videos/demo-petsafe.mp4" type="video/mp4" />
-                Seu navegador não suporta vídeos HTML5.
-              </video>
-              {!isVideoPlaying && (
-                <div className={styles.videoPlayButton} onClick={toggleVideoPlay}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 5V19L19 12L8 5Z" fill="white"/>
-                  </svg>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Seção de Serviços Essenciais */}
-      <section className={`${styles.essentials} ${styles.observe}`}>
-        <div className={styles.sectionHeader}>
-          <h2>Cuidados Essenciais</h2>
-          <p>Oferecemos serviços completos para o bem-estar do seu pet</p>
-        </div>
-        <div className={styles.blocks}>
-          <div className={`${styles.block} ${styles.grooming}`}>
-            <div className={styles.blockContent}>
-              <img src="/images/banho-tosa.png" alt="Banho e Tosa" className={styles.icon} />
-              <h3>Banho & Tosa</h3>
-              <p>Higiene e conforto para a sua melhor companhia.</p>
-              <Link to="/servicos/banho-tosa" className={styles.serviceLink}>
-                <span>Saiba mais</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-            </div>
-          </div>
-          <div className={`${styles.block} ${styles.vet}`}>
-            <div className={styles.blockContent}>
-              <img src="/images/veterinario.png" alt="Veterinário" className={styles.icon} />
-              <h3>Veterinário</h3>
-              <p>A saúde do seu pet em dia, com atendimento profissional e carinho.</p>
-              <Link to="/servicos/veterinario" className={styles.serviceLink}>
-                <span>Saiba mais</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-            </div>
-          </div>
-          <div className={`${styles.block} ${styles.walking}`}>
-            <div className={styles.blockContent}>
-              <img src="/images/passeio.png" alt="Passeio" className={styles.icon} />
-              <h3>Passeios</h3>
-              <p>Exercício e diversão para seu pet, mesmo com sua agenda cheia.</p>
-              <Link to="/servicos/passeios" className={styles.serviceLink}>
-                <span>Saiba mais</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Seção de Depoimentos com Vídeos */}
-      <section className={`${styles.testimonials} ${styles.observe}`}>
-        <div className={styles.sectionHeader}>
-          <h2>O que nossos clientes dizem</h2>
-          <p>A satisfação dos pets e seus donos é nossa maior recompensa</p>
-        </div>
-        <div className={styles.testimonialContainer}>
-          <div className={styles.testimonialVideo}>
-            <div className={styles.videoCard}>
-              <video 
-                muted 
-                playsInline 
-                className={styles.testimonialVid}
-                poster="/images/testimonial1-poster.jpg"
-              >
-                <source src="/videos/testimonial1.mp4" type="video/mp4" />
-              </video>
-              <div className={styles.videoOverlay}>
-                <button className={styles.playTestimonial}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 5V19L19 12L8 5Z" fill="white"/>
-                  </svg>
-                </button>
-                <div className={styles.testimonialInfo}>
-                  <h4>Maria Silva</h4>
-                  <p>Tutora do Thor</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className={styles.testimonialContent}>
-            <div className={styles.testimonialQuote}>
-              <div className={styles.quoteIcon}>"</div>
-              <p>A PetSafe revolucionou a forma como cuido do meu labrador. Agendo tudo pelo app e sei que posso confiar! A equipe é incrível e o Thor sempre volta feliz dos passeios.</p>
-              <div className={styles.clientInfo}>
-                <img src="/images/clientes/cliente1.jpg" alt="Maria Silva" />
+      {/* Features Section with Text Left and Flip Image Right */}
+      <section className={styles.featuresSection}>
+        <div className={styles.featuresContainer}>
+          <div className={styles.featuresTextContent}>
+            <h2 className={styles.sectionTitle}>Por que escolher a Pet Hero?</h2>
+            <p className={styles.sectionSubtitle}>Descubra os diferenciais que nos tornam referência em cuidado animal</p>
+            
+            <div className={styles.featuresList}>
+              <div className={styles.featureTextItem}>
+                <div className={styles.featureIcon}>⭐</div>
                 <div>
-                  <h4>Maria Silva</h4>
-                  <p>Tutora do Thor</p>
+                  <h3>Profissionais Certificados</h3>
+                  <p>Nossa equipe possui certificações internacionais em cuidado animal e treinamento contínuo</p>
+                </div>
+              </div>
+              
+              <div className={styles.featureTextItem}>
+                <div className={styles.featureIcon}>🔬</div>
+                <div>
+                  <h3>Tecnologia Avançada</h3>
+                  <p>Utilizamos equipamentos de última geração para diagnóstico preciso e tratamentos eficazes</p>
+                </div>
+              </div>
+              
+              <div className={styles.featureTextItem}>
+                <div className={styles.featureIcon}>🌿</div>
+                <div>
+                  <h3>Produtos Naturais</h3>
+                  <p>Shampoos e produtos hipoalergênicos, sustentáveis e testados dermatologicamente</p>
+                </div>
+              </div>
+              
+              <div className={styles.featureTextItem}>
+                <div className={styles.featureIcon}>🚗</div>
+                <div>
+                  <h3>Busca e Entrega</h3>
+                  <p>Serviço de taxi dog para sua comodidade, com motoristas treinados no transporte animal</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className={styles.featuresImageContent}>
+            <div className={styles.flipCard}>
+              <div className={styles.cardInner}>
+                <div className={styles.cardFront}>
+                  <div className={styles.cardIcon}>🐕</div>
+                  <h3>Conheça Nossa Estrutura</h3>
+                  <p>Clique para ver mais</p>
+                </div>
+                <div className={styles.cardBack}>
+                  <h3>Estrutura de Primeira</h3>
+                  <p>Ambientes climatizados, equipamentos modernos e espaços projetados para o conforto do seu pet</p>
+                  <div className={styles.cardStats}>
+                    <span>500m² de Área</span>
+                    <span>24h Monitoramento</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -264,87 +184,29 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Nova Seção: Blog ou Dicas para Pets (substituindo o App) */}
-      <section className={`${styles.blogSection} ${styles.observe}`}>
-        <div className={styles.sectionHeader}>
-          <h2>Dicas e Cuidados para seu Pet</h2>
-          <p>Aprenda a melhor forma de cuidar do seu companheiro com nossas dicas exclusivas</p>
-        </div>
-        <div className={styles.blogContainer}>
-          <div className={styles.blogCard}>
-            <div className={styles.blogImage}>
-              <img src="/images/blog/dicas-banho.jpg" alt="Dicas para banho" />
-              <div className={styles.blogCategory}>Higiene</div>
-            </div>
-            <div className={styles.blogContent}>
-              <h3>Como dar banho no seu pet em casa</h3>
-              <p>Aprenda o passo a passo para um banho seguro e tranquilo sem sair de casa.</p>
-              <Link to="/blog/banho-em-casa" className={styles.blogLink}>
-                Ler mais
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* CTA Section */}
+      <section className={styles.ctaSection}>
+        <div className={styles.ctaContent}>
+          <h2>Pronto para dar o melhor para seu pet?</h2>
+          <p>Agende agora mesmo uma experiência premium de cuidado animal</p>
+          <div className={styles.ctaButtons}>
+            <Link to="/agendamento">
+              <button className={styles.ctaButtonPrimary}>
+                <span>Agendar Agora</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </Link>
-            </div>
+              </button>
+            </Link>
+            <Link to="/contato">
+              <button className={styles.ctaButtonSecondary}>
+                <span>Falar com Consultor</span>
+              </button>
+            </Link>
           </div>
-          
-          <div className={styles.blogCard}>
-            <div className={styles.blogImage}>
-              <img src="/images/blog/alimentacao-saudavel.jpg" alt="Alimentação saudável" />
-              <div className={styles.blogCategory}>Nutrição</div>
-            </div>
-            <div className={styles.blogContent}>
-              <h3>Guia de alimentação saudável para cães</h3>
-              <p>Descubra os alimentos mais recomendados e os que devem ser evitados.</p>
-              <Link to="/blog/alimentacao-canina" className={styles.blogLink}>
-                Ler mais
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-            </div>
-          </div>
-          
-          <div className={styles.blogCard}>
-            <div className={styles.blogImage}>
-              <img src="/images/blog/brinquedos-pets.jpg" alt="Brinquedos para pets" />
-              <div className={styles.blogCategory}>Bem-estar</div>
-            </div>
-            <div className={styles.blogContent}>
-              <h3>Os melhores brinquedos para entreter seu pet</h3>
-              <p>Conheça opções seguras e divertidas para manter seu animal ativo e feliz.</p>
-              <Link to="/blog/brinquedos-pets" className={styles.blogLink}>
-                Ler mais
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className={styles.blogCta}>
-          <Link to="/blog" className={styles.ctaTertiary}>
-            Ver todas as dicas
-          </Link>
         </div>
       </section>
-
-      {/* Newsletter Section */}
-      <section className={`${styles.newsletter} ${styles.observe}`}>
-        <div className={styles.newsletterContent}>
-          <h2>Fique por dentro das novidades</h2>
-          <p>Cadastre-se para receber dicas de cuidado pet e promoções exclusivas</p>
-          <form className={styles.newsletterForm}>
-            <input 
-              type="email" 
-              placeholder="Seu melhor email" 
-              className={styles.newsletterInput}
-            />
-            <button type="submit" className={styles.newsletterButton}>Inscrever-se</button>
-          </form>
-        </div>
-      </section>
-    </LayoutPadrao>
+    </div>
   );
 };
 

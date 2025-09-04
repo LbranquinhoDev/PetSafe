@@ -1,11 +1,34 @@
-import style from './Footer.module.css';
+// src/components/Footer/Footer.js
+import React from 'react';
+import styles from './Footer.module.css';
 
 const Footer = () => {
-    return (
-        <footer>
-            <div className="footer"></div>
-            <p>© 2024 PetSafe. Todos os direitos reservados.</p>
-        </footer>
-    );
+  return (
+    <footer className={styles.footer}>
+      <div className={styles.container}>
+        <div className={styles.footerContent}>
+          <div className={styles.footerSection}>
+            <h3>PetHero</h3>
+            <p>Cuidando do seu pet com amor e dedicação.</p>
+          </div>
+          <div className={styles.footerSection}>
+            <h3>Contato</h3>
+            <p>Email: contato@pethero.com</p>
+            <p>Telefone: (11) 99999-9999</p>
+          </div>
+          <div className={styles.footerSection}>
+            <h3>Links Rápidos</h3>
+            <a href="/servicos">Serviços</a>
+            <a href="/sobre">Sobre Nós</a>
+            <a href="/contato">Contato</a>
+          </div>
+        </div>
+        <div className={styles.footerBottom}>
+          <p>&copy; 2023 PetHero. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+  );
 };
+
 export default Footer;

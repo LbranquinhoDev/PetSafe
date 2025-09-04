@@ -1,68 +1,21 @@
+// src/components/Navbar/Navbar.js
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import styles from './Navbar.module.css';
 
-const Navbar = ({ menuAberto, setMenuAberto }) => {
-  const location = useLocation();
-
+const Navbar = () => {
   return (
-    <>
-      <nav className={styles.navbar}>
-        <div className={styles.navContainer}>
-          <Link to="/" className={styles.navLogo}>
-            <img src="/images/logo-petsafe.png" alt="PetSafe" />
-            <span>PetSafe</span>
-          </Link>
-
-          <div className={`${styles.navMenu} ${menuAberto ? styles.ativo : ''}`}>
-            <Link 
-              to="/" 
-              className={`${styles.navLink} ${location.pathname === '/' ? styles.ativo : ''}`}
-              onClick={() => setMenuAberto(false)}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/servicos" 
-              className={`${styles.navLink} ${location.pathname === '/servicos' ? styles.ativo : ''}`}
-              onClick={() => setMenuAberto(false)}
-            >
-              Serviços
-            </Link>
-            <Link 
-              to="/sobre" 
-              className={`${styles.navLink} ${location.pathname === '/sobre' ? styles.ativo : ''}`}
-              onClick={() => setMenuAberto(false)}
-            >
-              Sobre
-            </Link>
-            <Link 
-              to="/contato" 
-              className={`${styles.navLink} ${location.pathname === '/contato' ? styles.ativo : ''}`}
-              onClick={() => setMenuAberto(false)}
-            >
-              Contato
-            </Link>
-            <Link 
-              to="/agendamento" 
-              className={styles.navCta}
-              onClick={() => setMenuAberto(false)}
-            >
-              Agendar
-            </Link>
-          </div>
-
-          <div 
-            className={`${styles.hamburger} ${menuAberto ? styles.ativo : ''}`}
-            onClick={() => setMenuAberto(!menuAberto)}
-          >
-            <span className={styles.bar}></span>
-            <span className={styles.bar}></span>
-            <span className={styles.bar}></span>
-          </div>
-        </div>
-      </nav>
-    </>
+    <nav className={styles.navbar}>
+      <div className={styles.navbarContainer}>
+        <a href="/" className={styles.logo}>PetHero</a>
+        <ul className={styles.navLinks}>
+          <li><a href="/">Home</a></li>
+          <li><a href="/servicos">Serviços</a></li>
+          <li><a href="/sobre">Sobre</a></li>
+          <li><a href="/contato">Contato</a></li>
+          <li><a href="/agendamento">Agendamento</a></li>
+        </ul>
+      </div>
+    </nav>
   );
 };
 
