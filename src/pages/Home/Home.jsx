@@ -22,21 +22,43 @@ const Home = () => {
               em cada detalhe.
             </p>
             <div className={styles.heroButtons}>
-              <Link to="/agendamento">
+              <Link to="/login">
                 <Botao text="Agendar Serviço" variant="primary" />
               </Link>
-              <Link to="/servicos">
+              <Link to="/login">
                 <Botao text="Ver Serviços" variant="secondary" />
               </Link>
             </div>
           </div>
-          <div className={styles.heroImage}>
-            <div className={styles.imagePlaceholder}>
-              <div className={styles.placeholderText}>
-                <span className={styles.imageIcon}>🐕</span>
-                <span>Imagem do Pet</span>
-              </div>
-            </div>
+          <div className={styles.flipCard}>
+  <div className={styles.cardInner}>
+    <div className={styles.cardFront}>
+      <div className={styles.cardImageContainer}>
+        // Alternativa ainda mais profissional:
+
+<img 
+  src="https://images.unsplash.com/photo-1577720643272-265f0936742f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" 
+  alt="Clínica veterinária moderna" 
+  className={styles.cardImage}
+/>
+        <div className={styles.cardOverlay}></div>
+      </div>
+      <h3>Conheça Nossa Estrutura</h3>
+      <p>Clique para ver mais</p>
+    </div>
+    <div className={styles.cardBack}>
+      <h3>Estrutura de Primeira</h3>
+      <p>Ambientes climatizados, equipamentos modernos e espaços projetados para o conforto do seu pet</p>
+      <div className={styles.cardStats}>
+        <span>500m² de Área</span>
+        <span>24h Monitoramento</span>
+      </div>
+
+    </div>
+  </div>
+
+              
+           
           </div>
         </div>
         
@@ -96,7 +118,7 @@ const Home = () => {
             </div>
             <h3>Veterinário</h3>
             <p>Consultas, vacinas e tratamentos com especialistas qualificados</p>
-            <Link to="/servicos" className={styles.serviceLink}>
+            <Link to="/login" className={styles.serviceLink}>
               <span>Saiba mais</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -110,7 +132,7 @@ const Home = () => {
             </div>
             <h3>Hospedagem</h3>
             <p>Hotel 5 estrelas com monitoramento 24h e muito conforto</p>
-            <Link to="/servicos" className={styles.serviceLink}>
+            <Link to="/login" className={styles.serviceLink}>
               <span>Saiba mais</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -190,7 +212,7 @@ const Home = () => {
           <h2>Pronto para dar o melhor para seu pet?</h2>
           <p>Agende agora mesmo uma experiência premium de cuidado animal</p>
           <div className={styles.ctaButtons}>
-            <Link to="/agendamento">
+            <Link to="/login">
               <button className={styles.ctaButtonPrimary}>
                 <span>Agendar Agora</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
