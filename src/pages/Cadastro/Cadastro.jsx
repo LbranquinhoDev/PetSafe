@@ -1,58 +1,112 @@
-// src/pages/Cadastro/Cadastro.js
+// src/pages/Cadastro/Cadastro.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import styles from './Cadastro.module.css';
+import Button from '../../components/Botao/Botao';
 
-const Cadastro = () => {
+export default function Cadastro() {
   const [formData, setFormData] = useState({
-    nome: '',
+    name: '',
     email: '',
-    telefone: '',
-    senha: '',
-    confirmarSenha: ''
+    password: '',
+    confirmPassword: '',
+    telefone: ''
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Lógica de cadastro aqui
-    console.log('Cadastro attempt:', formData);
-    // Após cadastro bem-sucedido:
-    navigate('/agendamento');
+    
+    console.log('Dados do formulário:', formData);
+
+    // Validações
+    if (formData.password !== formData.confirmPassword) {
+      setError('Senhas não coincidem');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('A senha deve ter pelo menos 6 caracteres');
+      return;
+    }
+
+    if (!formData.name.trim()) {
+      setError('Nome é obrigatório');
+      return;
+    }
+
+    if (!formData.email.includes('@')) {
+      setError('Email inválido');
+      return;
+    }
+    
+    try {
+      setError('');
+      setLoading(true);
+      
+      // Remover confirmPassword dos dados enviados
+      const { confirmPassword, ...userData } = formData;
+      console.log('Dados para registro:', userData);
+      
+      const result = register(userData);
+      console.log('Resultado do registro:', result);
+      
+      if (result.success) {
+        alert('Cadastro realizado com sucesso!');
+        navigate('/');
+      } else {
+        setError(result.message || 'Erro ao criar conta');
+      }
+    } catch (error) {
+      console.error('Erro no cadastro:', error);
+      setError('Falha ao criar conta');
+    }
+    
+    setLoading(false);
   };
 
   return (
-    <div className={styles.cadastroContainer}>
-      <div className={styles.cadastroCard}>
-        <div className={styles.cadastroHeader}>
-          <h1>Crie sua conta</h1>
-          <p>Junte-se à família Pet Hero</p>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <div className={styles.header}>
+          <h1>Criar Conta</h1>
+          <p>Preencha os dados para se cadastrar</p>
         </div>
 
-        <form onSubmit={handleSubmit} className={styles.cadastroForm}>
+        {error && <div className={styles.error}>{error}</div>}
+
+        <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>
-            <label htmlFor="nome">Nome completo</label>
+            <label htmlFor="name">Nome Completo *</label>
             <input
               type="text"
-              id="nome"
-              name="nome"
-              value={formData.nome}
+              id="name"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               placeholder="Seu nome completo"
               required
+              disabled={loading}
             />
           </div>
 
           <div className={styles.inputGroup}>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email *</label>
             <input
               type="email"
               id="email"
@@ -61,6 +115,7 @@ const Cadastro = () => {
               onChange={handleChange}
               placeholder="seu@email.com"
               required
+              disabled={loading}
             />
           </div>
 
@@ -73,26 +128,28 @@ const Cadastro = () => {
               value={formData.telefone}
               onChange={handleChange}
               placeholder="(11) 99999-9999"
-              required
+              disabled={loading}
             />
           </div>
 
           <div className={styles.inputGroup}>
-            <label htmlFor="senha">Senha</label>
+            <label htmlFor="password">Senha *</label>
             <div className={styles.passwordInput}>
               <input
                 type={showPassword ? 'text' : 'password'}
-                id="senha"
-                name="senha"
-                value={formData.senha}
+                id="password"
+                name="password"
+                value={formData.password}
                 onChange={handleChange}
-                placeholder="Crie uma senha segura"
+                placeholder="Mínimo 6 caracteres"
                 required
+                disabled={loading}
               />
               <button
                 type="button"
                 className={styles.showPasswordBtn}
                 onClick={() => setShowPassword(!showPassword)}
+                disabled={loading}
               >
                 {showPassword ? '🙈' : '👁️'}
               </button>
@@ -100,28 +157,38 @@ const Cadastro = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <label htmlFor="confirmarSenha">Confirmar senha</label>
-            <input
-              type="password"
-              id="confirmarSenha"
-              name="confirmarSenha"
-              value={formData.confirmarSenha}
-              onChange={handleChange}
-              placeholder="Digite novamente sua senha"
-              required
-            />
+            <label htmlFor="confirmPassword">Confirmar Senha *</label>
+            <div className={styles.passwordInput}>
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Digite a senha novamente"
+                required
+                disabled={loading}
+              />
+              <button
+                type="button"
+                className={styles.showPasswordBtn}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                disabled={loading}
+              >
+                {showConfirmPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
           </div>
 
-          <div className={styles.terms}>
-            <label className={styles.termsLabel}>
-              <input type="checkbox" required />
-              <span>Concordo com os <Link to="/termos">Termos de Serviço</Link> e <Link to="/privacidade">Política de Privacidade</Link></span>
-            </label>
-          </div>
-
-          <button type="submit" className={styles.cadastroButton}>
-            Criar conta
-          </button>
+          <Button 
+            type="submit" 
+            disabled={loading}
+            className={styles.submitButton}
+            text='Criar Conta'
+          >
+            {loading ? 'Criando conta...' : 'Criar Conta'}
+            
+          </Button>
         </form>
 
         <div className={styles.loginLink}>
@@ -130,6 +197,4 @@ const Cadastro = () => {
       </div>
     </div>
   );
-};
-
-export default Cadastro;
+}

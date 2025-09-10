@@ -793,3 +793,81 @@
   align-items: center;
   gap: 0.8rem;
 }
+/* Adicione ao Home.module.css */
+.testimonialsSection {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #0a2e1a 0%, #133e16 100%);
+}
+
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonialCard {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonialCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.testimonialIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.testimonialContent {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.quoteIcon {
+  font-size: 3rem;
+  color: #4caf50;
+  opacity: 0.3;
+  margin-bottom: 1rem;
+}
+
+.testimonialContent p {
+  font-style: italic;
+  line-height: 1.6;
+  color: #f1f8e9;
+}
+
+.testimonialAuthor h4 {
+  color: #c8e6c9;
+  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.testimonialAuthor span {
+  color: #a5d6a7;
+  font-size: 0.9rem;
+}
+
+/* Adicione ao Home.module.css */
+.testimonialImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+  border: 4px solid #4caf50;
+}
+
+.testimonialImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

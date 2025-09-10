@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from './Botao.module.css';
 
-const Botao = ({ text = "Modern Button", variant = "primary", onClick }) => {
+const Botao = ({ text = "Botao", variant = "primary", onClick }) => {
   return (
     <button 
       className={`${styles['animated-button']} ${styles[variant]}`}

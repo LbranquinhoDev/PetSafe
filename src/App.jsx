@@ -1,16 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Home from './pages/Home/Home'
-import AppRouter from './Router';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { inicializeData } from './utils/InicialData';
+import LayoutPadrao from './components/LayoutPadrao';
+import Home from './pages/Home/Home';
+import Login from './pages/Login/Login';
+import Sobre from './pages/Sobre/Sobre';
+import Servicos from './pages/Servicos/Servicos';
+import Agendamento from './pages/Agendamento/Agendamento';
+import Cadastro from './pages/Cadastro';
+import Profile from "./pages/Profile/Profile";
+
+// Inicializar dados
+inicializeData();
 
 function App() {
-
   return (
-    <>
-    <AppRouter />
-    </>
-  )
+    <Router>
+      <AuthProvider>
+        <LayoutPadrao>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sobre" element={<Sobre />} />
+            <Route path="/servicos" element={<Servicos />} />
+            <Route path="/agendamento" element={<Agendamento />} />
+            <Route path="/cadastro" element={<Cadastro />} />
+            <Route path="/profile" element={<Profile />} />
+
+
+            {/* Remova ou comente a rota admin se não for usar ainda */}
+            {/* <Route path="/admin" element={<Admin />} /> */}
+          </Routes>
+        </LayoutPadrao>
+      </AuthProvider>
+    </Router>
+  );
 }
 
-export default App
+export default App;

@@ -2,28 +2,47 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
+import { useAuth } from '../../context';
 
-const Login = () => {
+
+export default function Login ()  {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading,setLoading] = useState(false);
+
+  const {login} = useAuth()
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Lógica de autenticação aqui
-    console.log('Login attempt:', { email, password });
-    // Após login bem-sucedido:
-    navigate('/agendamento');
+
+    try {
+      setError('');
+      setLoading(true);
+      const result = login(email, password);
+      
+      if (result.success) {
+        navigate('/');
+      } else {
+        setError(result.message);
+      }
+    } catch {
+      setError('Falha ao fazer login');
+    }
+    setLoading(false);
   };
 
   return (
-    <div className={styles.loginContainer}>
+    <div className={styles.LoginContainer}>
       <div className={styles.loginCard}>
         <div className={styles.loginHeader}>
           <h1>Bem-vindo de volta!</h1>
           <p>Entre na sua conta para agendar serviços</p>
         </div>
+
+        {error && <div className={styles.errorMessage}>{error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.loginForm}>
           <div className={styles.inputGroup}>
@@ -95,6 +114,5 @@ const Login = () => {
       </div>
     </div>
   );
-};
 
-export default Login;
+}

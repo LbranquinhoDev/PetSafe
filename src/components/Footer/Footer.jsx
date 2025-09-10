@@ -8,7 +8,7 @@ const Footer = () => {
       <div className={styles.container}>
         <div className={styles.footerContent}>
           <div className={styles.footerSection}>
-            <h3>PetHero</h3>
+            <h3>PetSafe</h3>
             <p>Cuidando do seu pet com amor e dedicação.</p>
           </div>
           <div className={styles.footerSection}>
@@ -24,7 +24,7 @@ const Footer = () => {
           </div>
         </div>
         <div className={styles.footerBottom}>
-          <p>&copy; 2023 PetHero. Todos os direitos reservados.</p>
+          <p>&copy; 2025 PetHero. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
