@@ -10,6 +10,7 @@ import Servicos from './pages/Servicos/Servicos';
 import Agendamento from './pages/Agendamento/Agendamento';
 import Cadastro from './pages/Cadastro';
 import Profile from "./pages/Profile/Profile";
+import MeusAgendamentos from './pages/MeusAgendamentos/MeusAgendamentos';
 
 // Inicializar dados
 inicializeData();
@@ -27,7 +28,7 @@ function App() {
             <Route path="/agendamento" element={<Agendamento />} />
             <Route path="/cadastro" element={<Cadastro />} />
             <Route path="/profile" element={<Profile />} />
-
+            <Route path="/meus-agendamentos" element={<MeusAgendamentos />} />
 
             {/* Remova ou comente a rota admin se não for usar ainda */}
             {/* <Route path="/admin" element={<Admin />} /> */}

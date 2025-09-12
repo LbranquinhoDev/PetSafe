@@ -1,80 +1,125 @@
+// src/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth,db } from '../firebase/config';
+import { firebaseAuth } from '../services/firebaseAuth';
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const user = localStorage.getItem('currentUser');
-        if (user) {
-            setCurrentUser(JSON.parse(user));
+  useEffect(() => {
+    console.log('AuthProvider iniciando...');
+    
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      console.log('Estado de autenticação mudou:', firebaseUser);
+      
+      if (firebaseUser) {
+        try {
+          // Buscar dados adicionais do Firestore
+          const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+          
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setCurrentUser({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              name: firebaseUser.displayName || userData.name,
+              ...userData
+            });
+            console.log('Usuário carregado do Firestore:', userData.name);
+          } else {
+            // Se não encontrou no Firestore, usa dados básicos
+            setCurrentUser({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              name: firebaseUser.displayName || 'Usuário'
+            });
+            console.log('Usuário carregado (dados básicos):', firebaseUser.email);
+          }
+        } catch (error) {
+          console.error('Erro ao carregar dados do usuário:', error);
+          setCurrentUser({
+            uid: firebaseUser.uid,
+            email: firebaseUser.email,
+            name: firebaseUser.displayName || 'Usuário'
+          });
         }
-        setLoading(false);
-    }, []);
-
-// No AuthContext.jsx, verifique se está assim:
-
-const login = (email, password) => {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find(u => u.email === email && u.password === password);
-    
-    if (user) {
-        const { password: _, ...userWithoutPassword } = user;
-        setCurrentUser(userWithoutPassword);
-        localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
-        return { success: true };
-    }
-    
-    return { success: false, message: 'Email ou senha incorretos' };
-};
-
-// Adicione campos padrão no register:
-const register = (userData) => {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    
-    if (users.some(u => u.email === userData.email)) {
-        return { success: false, message: 'Email já cadastrado' };
-    }
-    
-    const newUser = {
-        ...userData,
-        id: Date.now(),
-        dataCadastro: new Date().toISOString(),
-        role: 'user',
-        telefone: userData.telefone || '',
-        endereco: userData.endereco || '',
-        foto: userData.foto || ''
-    };
-    
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users));
-    
-    const { password, ...userWithoutPassword } = newUser;
-    setCurrentUser(userWithoutPassword);
-    localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
-    
-    return { success: true };
-};
-    const logout = () => {
+      } else {
         setCurrentUser(null);
-        localStorage.removeItem('currentUser');
-    };
+        console.log('Nenhum usuário logado');
+      }
+      
+      setLoading(false);
+    });
 
-    const value = {
-        currentUser,
-        login,
-        register,
-        logout,
-        loading,
-    };
+    // Cleanup function
+    return () => unsubscribe();
+  }, []);
 
-    return (
-        <AuthContext.Provider value={value}>
-            {!loading && children}
-        </AuthContext.Provider>
-    );
+  const login = async (email, password) => {
+    console.log('Tentando login com:', email);
+    setLoading(true);
+    try {
+      const result = await firebaseAuth.login(email, password);
+      console.log('Resultado do login:', result);
+      return result;
+    } catch (error) {
+      console.error('Erro no login:', error);
+      return { 
+        success: false, 
+        message: error.message || 'Erro no login' 
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const register = async (userData) => {
+    console.log('Tentando registrar:', userData);
+    setLoading(true);
+    try {
+      const result = await firebaseAuth.register(userData);
+      console.log('Resultado do registro:', result);
+      return result;
+    } catch (error) {
+      console.error('Erro no registro:', error);
+      return { 
+        success: false, 
+        message: error.message || 'Erro no cadastro' 
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      console.log('Fazendo logout...');
+      await firebaseAuth.logout();
+      setCurrentUser(null);
+      console.log('Logout realizado com sucesso');
+    } catch (error) {
+      console.error('Erro no logout:', error);
+    }
+  };
+
+  const value = {
+    currentUser,
+    login,
+    register,
+    logout,
+    loading
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };

@@ -77,7 +77,7 @@ const Navbar = () => {
                   <Link to="/profile" className={styles.dropdownItem}>
                     👤 Meu Perfil
                   </Link>
-                  <Link to="/agendamento" className={styles.dropdownItem}>
+                  <Link to="/meus-agendamentos" className={styles.dropdownItem}>
                     📅 Meus Agendamentos
                   </Link>
                   <button onClick={handleLogout} className={styles.dropdownItem}>

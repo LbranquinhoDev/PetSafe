@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useAgendamentos } from '../../hooks/useApi';
-import { useAuth } from '../../context';
+import { useAuth } from '../../context/AuthContext';
 import styles from './Agendamento.module.css';
 import Button from '../../components/Botao/Botao';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../firebase/config';
 
 export default function Agendamento() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -14,7 +15,7 @@ export default function Agendamento() {
     observacoes: ''
   });
   
-  const { addItem } = useAgendamentos();
+  const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
 
   // Lista de serviços disponíveis
@@ -48,27 +49,39 @@ export default function Agendamento() {
     setCurrentStep(prev => prev - 1);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    if (!currentUser) {
-      alert('Por favor, faça login para agendar');
-      return;
-    }
-    
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  
+  if (!currentUser) {
+    alert('Por favor, faça login para agendar');
+    setLoading(false);
+    return;
+  }
+  
+  try {
     const novoAgendamento = {
-      userId: currentUser.id,
-      userName: currentUser.name,
+      userId: currentUser.uid,
+      userName: currentUser.displayName || currentUser.email,
       userEmail: currentUser.email,
-      ...agendamentoData,
+      servico: agendamentoData.servico,
+      servicoNome: servicos.find(s => s.id === agendamentoData.servico)?.nome,
+      data: agendamentoData.data,
+      hora: agendamentoData.hora,
+      pet: agendamentoData.pet,
+      observacoes: agendamentoData.observacoes || '',
       status: 'pendente',
-      dataCriacao: new Date().toISOString()
+      dataCriacao: serverTimestamp()
     };
     
-    addItem(novoAgendamento);
+    console.log('Salvando agendamento:', novoAgendamento);
+    
+    const docRef = await addDoc(collection(db, 'agendamentos'), novoAgendamento);
+    
+    console.log('Agendamento salvo com ID:', docRef.id);
     alert('Agendamento realizado com sucesso!');
     
-    // Resetar formulário
+    // Reset form
     setAgendamentoData({
       servico: '',
       data: '',
@@ -77,7 +90,14 @@ export default function Agendamento() {
       observacoes: ''
     });
     setCurrentStep(1);
-  };
+    
+  } catch (error) {
+    console.error('Erro ao salvar agendamento:', error);
+    alert('Erro ao realizar agendamento: ' + error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Renderizar passo atual
   const renderStep = () => {
@@ -113,6 +133,7 @@ export default function Agendamento() {
                 type="button" 
                 onClick={nextStep}
                 disabled={!agendamentoData.servico}
+                loading={loading}
               >
                 Próximo
               </Button>
@@ -134,6 +155,7 @@ export default function Agendamento() {
                 onChange={(e) => handleInputChange('pet', e.target.value)}
                 placeholder="Ex: Rex, Luna, etc."
                 required
+                disabled={loading}
               />
             </div>
             
@@ -144,17 +166,19 @@ export default function Agendamento() {
                 onChange={(e) => handleInputChange('observacoes', e.target.value)}
                 placeholder="Alguma informação importante? Comportamento, alergias, etc."
                 rows="3"
+                disabled={loading}
               />
             </div>
             
             <div className={styles.stepButtons}>
-              <Button type="button" onClick={prevStep} variant="secondary">
+              <Button type="button" onClick={prevStep} variant="secondary" disabled={loading}>
                 Voltar
               </Button>
               <Button 
                 type="button" 
                 onClick={nextStep}
-                disabled={!agendamentoData.pet}
+                disabled={!agendamentoData.pet || loading}
+                loading={loading}
               >
                 Próximo
               </Button>
@@ -176,6 +200,7 @@ export default function Agendamento() {
                 onChange={(e) => handleInputChange('data', e.target.value)}
                 min={new Date().toISOString().split('T')[0]}
                 required
+                disabled={loading}
               />
             </div>
             
@@ -188,6 +213,7 @@ export default function Agendamento() {
                     type="button"
                     className={`${styles.horarioOption} ${agendamentoData.hora === horario ? styles.selected : ''}`}
                     onClick={() => handleInputChange('hora', horario)}
+                    disabled={loading}
                   >
                     {horario}
                   </button>
@@ -196,13 +222,14 @@ export default function Agendamento() {
             </div>
             
             <div className={styles.stepButtons}>
-              <Button type="button" onClick={prevStep} variant="secondary">
+              <Button type="button" onClick={prevStep} variant="secondary" disabled={loading}>
                 Voltar
               </Button>
               <Button 
                 type="button" 
                 onClick={nextStep}
-                disabled={!agendamentoData.data || !agendamentoData.hora}
+                disabled={!agendamentoData.data || !agendamentoData.hora || loading}
+                loading={loading}
               >
                 Próximo
               </Button>
@@ -242,11 +269,11 @@ export default function Agendamento() {
             </div>
             
             <div className={styles.stepButtons}>
-              <Button type="button" onClick={prevStep} variant="secondary">
+              <Button type="button" onClick={prevStep} variant="secondary" disabled={loading}>
                 Voltar
               </Button>
-              <Button type="submit" variant="primary">
-                Confirmar Agendamento
+              <Button type="submit" variant="primary" loading={loading} disabled={loading}>
+                {loading ? 'Salvando...' : 'Confirmar Agendamento'}
               </Button>
             </div>
           </div>

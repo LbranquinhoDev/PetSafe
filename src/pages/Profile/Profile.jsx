@@ -1,7 +1,6 @@
 // src/pages/Profile/Profile.jsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useUsuarios } from '../../hooks/useApi';
 import styles from './Profile.module.css';
 import Button from '../../components/Botao/Botao';
 
