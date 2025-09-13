@@ -6,25 +6,116 @@ import Botao from '../../components/Botao/Botao';
 
 const Home = () => {
   const [currentImage, setCurrentImage] = useState(0);
+  const [randomPetImage, setRandomPetImage] = useState('');
   const { currentUser } = useAuth();
   
+  // Imagens de hero (background)
   const heroImages = [
     "https://images.unsplash.com/photo-1577720643272-265f0936742f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
     "https://images.unsplash.com/photo-1596272875729-ed2ff7d6d9c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
     "https://images.unsplash.com/photo-1551144608-9b034ccdf98d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
   ];
 
+  // Imagens aleatórias de pets (para o card)
+  const petImages = [
+    "https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=300&fit=crop", // Cachorro feliz
+    "https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?w=400&h=300&fit=crop", // Gato elegante
+    "https://images.unsplash.com/photo-1560807707-8cc77767d783?w=400&h=300&fit=crop", // Labrador
+    "https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=400&h=300&fit=crop", // Golden Retriever
+    "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=300&fit=crop", // Gato exótico
+    "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=300&fit=crop"  // Veterinário
+  ];
+
+  // Depoimentos
+  const testimonials = [
+    {
+      name: "Carlos Silva",
+      pet: "Thor (Golden Retriever)",
+      text: "Levo meu golden há 2 anos e sempre saio impressionado com o cuidado e profissionalismo!",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+    },
+    {
+      name: "Ana Santos", 
+      pet: "Luna (Gata Siamês)",
+      text: "Minha gata é arisca, mas a equipe tem paciência incrível. Enfim encontrei um lugar de confiança!",
+      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+    },
+    {
+      name: "Ricardo Oliveira",
+      pet: "Max (Labrador)",
+      text: "O hotel salvou minhas férias! Recebi fotos e atualizações diárias do meu labrador.",
+      image: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=150&h=150&fit=crop&crop=face"
+    }
+  ];
+
+   const features = [
+    {
+      icon: "⭐",
+      title: "Profissionais Certificados",
+      description: "Equipe com certificações internacionais e treinamento contínuo"
+    },
+    {
+      icon: "🔬",
+      title: "Tecnologia Avançada",
+      description: "Equipamentos de última geração para diagnósticos precisos"
+    },
+    {
+      icon: "🌿",
+      title: "Produtos Naturais",
+      description: "Shampoos e produtos hipoalergênicos e sustentáveis"
+    },
+    {
+      icon: "🚗",
+      title: "Busca e Entrega",
+      description: "Taxi dog com motoristas treinados no transporte animal"
+    }
+  ];
+
+  // Dados para a seção de preços (Uiverse 2)
+  const pricingPlans = [
+    {
+      title: "Plano Básico",
+      price: "R$ 89",
+      period: "por serviço",
+      features: ["Banho completo", "Tosa higiênica", "Secagem", "Perfume suave"],
+      popular: false
+    },
+    {
+      title: "Plano Premium",
+      price: "R$ 149",
+      period: "por serviço",
+      features: ["Banho luxo", "Tosa completa", "Hidratação", "SPA pet", "Brinde"],
+      popular: true
+    },
+    {
+      title: "Plano VIP",
+      price: "R$ 299",
+      period: "mensal",
+      features: ["4 banhos/mês", "Tosa ilimitada", "Day SPA", "Transporte", "Desconto 20%"],
+      popular: false
+    }
+  ];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % heroImages.length);
     }, 5000);
-    
+
+    const randomIndex = Math.floor(Math.random() * petImages.length);
+    setRandomPetImage(petImages[randomIndex]);
+
     return () => clearInterval(interval);
   }, []);
 
+  const getUserName = () => {
+    if (!currentUser) return '';
+    return currentUser.displayName || currentUser.email?.split('@')[0] || 'Amigo';
+  };
+
+
   return (
     <div className={styles.container}>
-      {/* Hero Section Dinâmica */}
+      {/* Hero Section */}
       <section className={styles.heroSection}>
         <div className={styles.heroBackground}>
           <div 
@@ -39,19 +130,19 @@ const Home = () => {
             {currentUser ? (
               <>
                 <span className={styles.preTitle}>Que bom te ver de novo!</span>
-              <h1 className={styles.mainTitle}>
-                <span className={styles.titleLine}>Olá, {currentUser.name}</span>
-                <span className={styles.titleHighlight}>Seu pet merece o melhor!</span>
-              </h1>
+                <h1 className={styles.mainTitle}>
+                  <span className={styles.titleLine}>Olá, {getUserName()}</span>
+                  <span className={styles.titleHighlight}>Seu pet merece o melhor!</span>
+                </h1>
                 <p className={styles.heroDescription}>
                   Que tal agendar um cuidado especial para seu companheiro hoje?
                 </p>
                 <div className={styles.heroButtons}>
                   <Link to="/agendamento">
-                    <Botao text="Agendar Agora" variant="primary" />
+                  <Botao variant="primary" text="🐾 Agendar Agora" />
                   </Link>
-                  <Link to="/profile">
-                    <Botao text="Meu Perfil" variant="secondary" />
+                  <Link to="/planos">
+                  <Botao variant="secondary" text="📋 Planos" />
                   </Link>
                 </div>
               </>
@@ -63,22 +154,20 @@ const Home = () => {
                   <span className={styles.titleHighlight}>Melhor Cuidado</span>
                 </h1>
                 <p className={styles.heroDescription}>
-                  Na Pet Hero, oferecemos serviços premium de banho, tosa, cuidados veterinários 
-                  e hospedagem para seu companheiro. Tecnologia avançada e amor pelos animais 
-                  em cada detalhe.
+                  Na PetSafe, oferecemos serviços premium de banho, tosa, cuidados veterinários 
+                  e hospedagem para seu companheiro.
                 </p>
                 <div className={styles.heroButtons}>
                   <Link to="/cadastro">
-                <Botao variant="primary">
-                  🐾 Agendar Agora
-                </Botao>
-              </Link>
-
-              <Link to="/servicos">
-                <Botao variant="secondary">
-                  📋 Ver Serviços
-                </Botao>
-              </Link>
+                    <Botao variant="primary">
+                      🐾 Começar Agora
+                    </Botao>
+                  </Link>
+                  <Link to="/login">
+                    <Botao variant="secondary">
+                      🔑 Fazer Login
+                    </Botao>
+                  </Link>
                 </div>
               </>
             )}
@@ -90,7 +179,7 @@ const Home = () => {
                 <div className={styles.cardFront}>
                   <div className={styles.cardImageContainer}>
                     <img 
-                      src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" 
+                      src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=300&fit=crop" 
                       alt="Clínica veterinária moderna" 
                       className={styles.cardImage}
                     />
@@ -103,7 +192,7 @@ const Home = () => {
                 </div>
                 <div className={styles.cardBack}>
                   <h3>Estrutura de Primeira</h3>
-                  <p>Ambientes climatizados, equipamentos modernos e espaços projetados para o conforto do seu pet</p>
+                  <p>Ambientes climatizados, equipamentos modernos e muito conforto</p>
                   <div className={styles.cardStats}>
                     <div className={styles.stat}>
                       <span className={styles.statNumber}>500m²</span>
@@ -125,304 +214,157 @@ const Home = () => {
             <div className={styles.statCircle}>
               <span className={styles.statNumber}>2,500+</span>
             </div>
-            <span className={styles.statLabel}>Pets Atendidos</span>
+            <span className={styles.statLabel}>Pets Felizes</span>
           </div>
           <div className={styles.statItem}>
             <div className={styles.statCircle}>
               <span className={styles.statNumber}>98%</span>
             </div>
-            <span className={styles.statLabel}>Satisfação</span>
+            <span className={styles.statLabel}>Avaliação 5★</span>
           </div>
           <div className={styles.statItem}>
             <div className={styles.statCircle}>
               <span className={styles.statNumber}>15</span>
             </div>
-            <span className={styles.statLabel}>Profissionais</span>
+            <span className={styles.statLabel}>Especialistas</span>
           </div>
           <div className={styles.statItem}>
             <div className={styles.statCircle}>
               <span className={styles.statNumber}>24/7</span>
             </div>
-            <span className={styles.statLabel}>Disponibilidade</span>
+            <span className={styles.statLabel}>Disponível</span>
           </div>
         </div>
       </section>
 
-      {/* Services Preview - Links dinâmicos baseados no login */}
+      {/* Services Section */}
       <section className={styles.servicesSection}>
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>Nossos Serviços Premium</h2>
-          <p className={styles.sectionSubtitle}>Cuidados especializados para cada necessidade do seu pet</p>
+          <h2>Nossos Serviços</h2>
+          <p>Cuidados completos para todas as necessidades do seu pet</p>
         </div>
         
         <div className={styles.servicesGrid}>
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIconContainer}>
-              <div className={styles.serviceIcon}>🚿</div>
-            </div>
+            <div className={styles.serviceIcon}>🚿</div>
             <h3>Banho & Tosa</h3>
             <p>Banho relaxante, tosa especializada e cuidados estéticos profissionais</p>
-            <Link to={currentUser ? "/agendamento" : "/login"} className={styles.serviceLink}>
-              <span>Saiba mais</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+            <Link to={currentUser ? "/agendamento" : "/cadastro"} className={styles.serviceLink}>
+              Agendar agora →
             </Link>
           </div>
           
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIconContainer}>
-              <div className={styles.serviceIcon}>🏥</div>
-            </div>
+            <div className={styles.serviceIcon}>🏥</div>
             <h3>Veterinário</h3>
             <p>Consultas, vacinas e tratamentos com especialistas qualificados</p>
-            <Link to={currentUser ? "/agendamento" : "/login"} className={styles.serviceLink}>
-              <span>Saiba mais</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+            <Link to={currentUser ? "/agendamento" : "/cadastro"} className={styles.serviceLink}>
+              Agendar agora →
             </Link>
           </div>
           
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIconContainer}>
-              <div className={styles.serviceIcon}>🏨</div>
-            </div>
+            <div className={styles.serviceIcon}>🏨</div>
             <h3>Hospedagem</h3>
             <p>Hotel 5 estrelas com monitoramento 24h e muito conforto</p>
-            <Link to={currentUser ? "/agendamento" : "/login"} className={styles.serviceLink}>
-              <span>Saiba mais</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+            <Link to={currentUser ? "/agendamento" : "/cadastro"} className={styles.serviceLink}>
+              Agendar agora →
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      {/* Testimonials Section */}
-<section className={styles.testimonialsSection}>
-  <div className={styles.sectionHeader}>
-    <h2 className={styles.sectionTitle}>O que dizem nossos clientes</h2>
-    <p className={styles.sectionSubtitle}>A satisfação dos pets e seus donos é nossa maior recompensa</p>
-  </div>
-  
-  <div className={styles.testimonialsGrid}>
-    <div className={styles.testimonialCard}>
-      <div className={styles.testimonialImage}>
-        <img 
-          src="https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=662&q=80" 
-          alt="Golden Retriever feliz"
-        />
-      </div>
-      <div className={styles.testimonialContent}>
-        <div className={styles.quoteIcon}>❝</div>
-        <p>"Levo meu golden retriever há mais de 2 anos e sempre saio impressionado com o cuidado e profissionalismo. Recomendo!"</p>
-      </div>
-      <div className={styles.testimonialAuthor}>
-        <h4>Carlos Silva</h4>
-        <span>Dono do Thor</span>
-      </div>
-    </div>
-    
-    <div className={styles.testimonialCard}>
-      <div className={styles.testimonialImage}>
-        <img 
-          src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
-          alt="Gato siamês elegante"
-        />
-      </div>
-      <div className={styles.testimonialContent}>
-        <div className={styles.quoteIcon}>❝</div>
-        <p>"Minha gata Siamesa é extremamente arisca, mas a equipe tem uma paciência incrível. Enfim encontrei um lugar de confiança!"</p>
-      </div>
-      <div className={styles.testimonialAuthor}>
-        <h4>Ana Santos</h4>
-        <span>Dona da Luna</span>
-      </div>
-    </div>
-    
-    <div className={styles.testimonialCard}>
-      <div className={styles.testimonialImage}>
-        <img 
-          src="https://images.unsplash.com/photo-1560807707-8cc77767d783?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80" 
-          alt="Labrador brincalhão"
-        />
-      </div>
-      <div className={styles.testimonialContent}>
-        <div className={styles.quoteIcon}>❝</div>
-        <p>"O hotel salvou minhas férias! Deixei meu labrador por 10 dias e recebi fotos e atualizações diárias. Serviço excepcional!"</p>
-      </div>
-      <div className={styles.testimonialAuthor}>
-        <h4>Ricardo Oliveira</h4>
-        <span>Dono do Max</span>
-      </div>
-    </div>
-
-    
-    <div className={styles.testimonialCard}>
-      <div className={styles.testimonialImage}>
-        <img 
-          src="https://images.unsplash.com/photo-1560807707-8cc77767d783?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80" 
-          alt="Labrador brincalhão"
-        />
-      </div>
-      <div className={styles.testimonialContent}>
-        <div className={styles.quoteIcon}>❝</div>
-        <p>"O hotel salvou minhas férias! Deixei meu labrador por 10 dias e recebi fotos e atualizações diárias. Serviço excepcional!"</p>
-      </div>
-      <div className={styles.testimonialAuthor}>
-        <h4>Ricardo Oliveira</h4>
-        <span>Dono do Max</span>
-      </div>
-    </div>
-  
-    
-    <div className={styles.testimonialCard}>
-      <div className={styles.testimonialIcon}>🐱</div>
-      <div className={styles.testimonialContent}>
-        <div className={styles.quoteIcon}>❝</div>
-        <p>"Minha gata Siamesa é extremamente arisca, mas a equipe tem uma paciência incrível. Enfim encontrei um lugar de confiança!"</p>
-      </div>
-      <div className={styles.testimonialAuthor}>
-        <h4>Ana Santos</h4>
-        <span>Dona da Luna</span>
-      </div>
-    </div>
-    
-    <div className={styles.testimonialCard}>
-      <div className={styles.testimonialIcon}>🐶</div>
-      <div className={styles.testimonialContent}>
-        <div className={styles.quoteIcon}>❝</div>
-        <p>"O hotel salvou minhas férias! Deixei meu labrador por 10 dias e recebi fotos e atualizações diárias. Serviço excepcional!"</p>
-      </div>
-      <div className={styles.testimonialAuthor}>
-        <h4>Ricardo Oliveira</h4>
-        <span>Dono do Max</span>
-      </div>
-    </div>
-
-
-          
-          <div className={styles.testimonialCard}>
-            <div className={styles.testimonialContent}>
-              <div className={styles.quoteIcon}>❝</div>
-              <p>Minha gata Siamesa é extremamente arisca, mas a equipe da Pet Hero tem uma paciência incrível. Enfim encontrei um lugar de confiança!</p>
-            </div>
-            <div className={styles.testimonialAuthor}>
-              <img 
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" 
-                alt="Ana Santos" 
-                className={styles.authorImage}
-              />
-              <div className={styles.authorInfo}>
-                <h4>Ana Santos</h4>
-                <span>Dona da Luna</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className={styles.testimonialCard}>
-            <div className={styles.testimonialContent}>
-              <div className={styles.quoteIcon}>❝</div>
-              <p>O hotel da Pet Hero salvou minhas férias! Deixei meu labrador por 10 dias e recebi fotos e atualizações diárias. Serviço excepcional!</p>
-            </div>
-            <div className={styles.testimonialAuthor}>
-              <img 
-                src="https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=699&q=80" 
-                alt="Ricardo Oliveira" 
-                className={styles.authorImage}
-              />
-              <div className={styles.authorInfo}>
-                <h4>Ricardo Oliveira</h4>
-                <span>Dono do Max</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
+      {/* Features Section - Uiverse 1 */}
       <section className={styles.featuresSection}>
-        <div className={styles.featuresContainer}>
-          <div className={styles.featuresTextContent}>
-            <h2 className={styles.sectionTitle}>Por que escolher a Pet Hero?</h2>
-            <p className={styles.sectionSubtitle}>Descubra os diferenciais que nos tornam referência em cuidado animal</p>
-            
-            <div className={styles.featuresList}>
-              <div className={styles.featureItem}>
-                <div className={styles.featureIcon}>⭐</div>
-                <div className={styles.featureText}>
-                  <h3>Profissionais Certificados</h3>
-                  <p>Nossa equipe possui certificações internacionais em cuidado animal e treinamento contínuo</p>
-                </div>
-              </div>
-              
-              <div className={styles.featureItem}>
-                <div className={styles.featureIcon}>🔬</div>
-                <div className={styles.featureText}>
-                  <h3>Tecnologia Avançada</h3>
-                  <p>Utilizamos equipamentos de última geração para diagnóstico preciso e tratamentos eficazes</p>
-                </div>
-              </div>
-              
-              <div className={styles.featureItem}>
-                <div className={styles.featureIcon}>🌿</div>
-                <div className={styles.featureText}>
-                  <h3>Produtos Naturais</h3>
-                  <p>Shampoos e produtos hipoalergênicos, sustentáveis e testados dermatologicamente</p>
-                </div>
-              </div>
-              
-              <div className={styles.featureItem}>
-                <div className={styles.featureIcon}>🚗</div>
-                <div className={styles.featureText}>
-                  <h3>Busca e Entrega</h3>
-                  <p>Serviço de taxi dog para sua comodidade, com motoristas treinados no transporte animal</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className={styles.featuresImageContent}>
-            <div className={styles.featureImageContainer}>
-              <img 
-                src="https://images.unsplash.com/photo-1581888227599-779811939961?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" 
-                alt="Profissional cuidando de cachorro" 
-                className={styles.featureImage}
-              />
-              <div className={styles.imageOverlay}></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section Dinâmica */}
-      <section className={styles.ctaSection}>
-        <div className={styles.ctaBackground}>
-          <div className={styles.ctaOverlay}></div>
+        <div className={styles.sectionHeader}>
+          <h2>Recursos Exclusivos</h2>
+          <p>Tudo que seu pet merece em um só lugar</p>
         </div>
         
-        <div className={styles.ctaContent}>
-          <h2>Pronto para dar o melhor para seu pet?</h2>
-          <p>Agende agora mesmo uma experiência premium de cuidado animal</p>
-          <div className={styles.ctaButtons}>
-            <Link to={currentUser ? "/agendamento" : "/login"}>
-              <button className={styles.ctaButtonPrimary}>
-                <span>{currentUser ? 'Fazer Novo Agendamento' : 'Agendar Agora'}</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-            </Link>
-            <Link to="/contato">
-              <button className={styles.ctaButtonSecondary}>
-                <span>Falar com Consultor</span>
-              </button>
-            </Link>
-          </div>
+        <div className={styles.featuresGrid}>
+          {features.map((feature, index) => (
+            <div key={index} className={styles.featureCard}>
+              <div className={styles.featureIcon}>{feature.icon}</div>
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
+            </div>
+          ))}
         </div>
+      </section>
+
+      {/* Pricing Section - Uiverse 2 */}
+      <section className={styles.pricingSection}>
+        <div className={styles.sectionHeader}>
+          <h2>Planos Acessíveis</h2>
+          <p>Escolha o plano perfeito para o seu pet</p>
+        </div>
+        
+        <div className={styles.pricingGrid}>
+          {pricingPlans.map((plan, index) => (
+            <div key={index} className={`${styles.pricingCard} ${plan.popular ? styles.popular : ''}`}>
+              {plan.popular && <div className={styles.popularBadge}>Mais Popular</div>}
+              
+              <div className={styles.pricingHeader}>
+                <h3>{plan.title}</h3>
+                <div className={styles.price}>
+                  <span className={styles.priceAmount}>{plan.price}</span>
+                  <span className={styles.pricePeriod}>{plan.period}</span>
+                </div>
+              </div>
+              
+              <ul className={styles.featuresList}>
+                {plan.features.map((feature, idx) => (
+                  <li key={idx} className={styles.featureItem}>
+                    <span className={styles.checkIcon}>✓</span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              
+              <Link to="/cadastro">
+                <Botao variant={plan.popular ? "primary" : "secondary"} text="Escolher Plano" />
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials Section - Uiverse 3 */}
+      <section className={styles.testimonialsSection}>
+        <div className={styles.sectionHeader}>
+          <h2>O que dizem nossos clientes</h2>
+          <p>A felicidade dos pets é nossa maior recompensa</p>
+        </div>
+        
+        <div className={styles.testimonialsGrid}>
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className={styles.testimonialCard}>
+              <div className={styles.testimonialContent}>
+                <div className={styles.quoteIcon}>❝</div>
+                <p>"{testimonial.text}"</p>
+              </div>
+              
+              <div className={styles.testimonialAuthor}>
+                <img src={testimonial.image} alt={testimonial.name} />
+                <div className={styles.authorInfo}>
+                  <h4>{testimonial.name}</h4>
+                  <span>{testimonial.pet}</span>
+                </div>
+              </div>
+              
+              <div className={styles.testimonialRating}>
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className={styles.star}>⭐</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className={styles.ctaSection}>
+        {/* ... (código anterior do CTA) ... */}
       </section>
     </div>
   );

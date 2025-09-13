@@ -13,14 +13,14 @@ const Footer = () => {
           </div>
           <div className={styles.footerSection}>
             <h3>Contato</h3>
-            <p>Email: contato@pethero.com</p>
+            <p>Email: contato@petsafe.com</p>
             <p>Telefone: (11) 99999-9999</p>
           </div>
           <div className={styles.footerSection}>
             <h3>Links Rápidos</h3>
-            <a href="/servicos">Serviços</a>
+            <a href="/planos">Planos</a>
             <a href="/sobre">Sobre Nós</a>
-            <a href="/contato">Contato</a>
+            <a href="/agendamento">Agendamento</a>
           </div>
         </div>
         <div className={styles.footerBottom}>

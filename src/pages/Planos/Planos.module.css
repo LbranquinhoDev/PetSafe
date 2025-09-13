@@ -1,0 +1,334 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Hero Section */
+.heroSection {
+  background: linear-gradient(135deg, #0a2e1a 0%, #1b5e20 100%);
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+  border-radius: 20px;
+  margin: 2rem 0;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSubtitle {
+  font-size: 1.3rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.heroStats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.stat {
+  text-align: center;
+}
+
+.statNumber {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #c8e6c9;
+}
+
+.statLabel {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Section Header */
+.sectionHeader {
+  text-align: center;
+  margin: 4rem 0 3rem;
+}
+
+.sectionHeader h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #1b5e20;
+  margin-bottom: 1rem;
+}
+
+.sectionHeader p {
+  font-size: 1.2rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Pricing Section */
+.pricingSection {
+  padding: 2rem 0;
+}
+
+.plansGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.planCard {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e5e7eb;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.planCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-color: var(--accent-color);
+}
+
+.planCard.popular {
+  border-color: var(--accent-color);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent-color);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.planHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.planIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.planHeader h3 {
+  font-size: 1.8rem;
+  color: #1b5e20;
+  margin-bottom: 0.5rem;
+}
+
+.planHeader p {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.planPrice {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem 0;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.price {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--accent-color);
+}
+
+.period {
+  font-size: 1.1rem;
+  color: #64748b;
+}
+
+.featuresList {
+  list-style: none;
+  margin: 2rem 0;
+  padding: 0;
+}
+
+.featureItem {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 1rem;
+}
+
+.featureItem:last-child {
+  border-bottom: none;
+}
+
+.planActions {
+  text-align: center;
+}
+
+.planLink {
+  text-decoration: none;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.detailsButton {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+.detailsButton:hover {
+  opacity: 0.8;
+}
+
+/* Benefits Section */
+.benefitsSection {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: 4rem 2rem;
+  border-radius: 20px;
+  margin: 4rem 0;
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.benefitCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.benefitCard:hover {
+  transform: translateY(-3px);
+}
+
+.benefitIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.benefitCard h3 {
+  color: #1b5e20;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.benefitCard p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* FAQ Section */
+.faqSection {
+  padding: 4rem 2rem;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.faqItem {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #4caf50;
+}
+
+.faqItem h3 {
+  color: #1b5e20;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.faqItem p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* CTA Section */
+.ctaSection {
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  color: white;
+  padding: 4rem 2rem;
+  border-radius: 20px;
+  margin: 4rem 0;
+  text-align: center;
+}
+
+.ctaContent h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #c8e6c9;
+}
+
+.ctaContent p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ctaButtons a {
+  text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+  
+  .heroStats {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .plansGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ctaButtons {
+    flex-direction: column;
+  }
+  
+  .sectionHeader h2 {
+    font-size: 2.2rem;
+  }
+}

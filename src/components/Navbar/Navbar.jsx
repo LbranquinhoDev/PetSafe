@@ -46,17 +46,13 @@ const Navbar = () => {
           <Link to="/" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
             Home
           </Link>
-          
-          <Link to="/servicos" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
-            Serviços
-          </Link>
-          
+                   
           <Link to="/sobre" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
             Sobre
           </Link>
           
-          <Link to="/contato" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
-            Contato
+          <Link to="/planos" className={styles.menuItem} onClick={() => setIsMenuOpen(false)}>
+            Planos
           </Link>
 
           {currentUser ? (
