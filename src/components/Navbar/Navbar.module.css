@@ -1,0 +1,302 @@
+.navbar {
+  background: rgba(20, 82, 35, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #c8e6c9;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.menuItem {
+  color: #f1f8e9;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+.menuItem:hover {
+  color: #c8e6c9;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* MENU DO USUÁRIO LOGADO */
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.profileMenu {
+  position: relative;
+}
+
+.profileToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.profileToggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.netflixAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.userName {
+  color: #f1f8e9;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.dropdown {
+  color: #c8e6c9;
+  font-size: 0.7rem;
+  transition: transform 0.3s;
+}
+
+.profileMenu:hover .dropdown {
+  transform: rotate(180deg);
+}
+
+.profileDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: rgba(20, 82, 35, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 0.5rem;
+  min-width: 180px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 1000;
+}
+
+.profileMenu:hover .profileDropdown {
+  display: block;
+}
+
+.dropdownItem {
+  display: block;
+  color: #f1f8e9;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  transition: background 0.3s;
+  font-size: 0.9rem;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* MENU PARA NÃO LOGADOS */
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.authSection {
+  display: flex;
+  gap: 1rem;
+  margin-left: 1rem;
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.loginButton {
+  color: #c8e6c9;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: 2px solid #4caf50;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.loginButton:hover {
+  background: #4caf50;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.signupButton {
+  background: #4caf50;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.signupButton:hover {
+  background: #43a047;
+  transform: translateY(-2px);
+}
+
+/* HAMBURGER MENU */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #f1f8e9;
+  margin: 3px 0;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 968px) {
+  .navbarContainer {
+    padding: 0 1rem;
+  }
+
+  .menu {
+    position: fixed;
+    top: 70px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background: rgba(20, 82, 35, 0.98);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    gap: 0;
+    transition: 0.3s;
+    padding: 2rem;
+    overflow-y: auto;
+  }
+
+  .menu.active {
+    left: 0;
+  }
+
+  .menuItem {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    text-align: center;
+  }
+
+  .userMenu {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .profileMenu {
+    width: 100%;
+  }
+
+  .profileDropdown {
+    position: static;
+    display: none;
+    width: 100%;
+    margin-top: 0.5rem;
+    box-shadow: none;
+  }
+
+  .profileMenu:hover .profileDropdown {
+    display: block;
+  }
+
+  .authButtons {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .authSection {
+    flex-direction: column;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+    width: 100%;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 1rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
+}

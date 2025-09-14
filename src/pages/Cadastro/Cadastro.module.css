@@ -1,0 +1,307 @@
+/* src/pages/Cadastro/Cadastro.module.css */
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0a2e1a 0%, #133e16 100%);
+  padding: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 450px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  color: #c8e6c9;
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header p {
+  color: #a5d6a7;
+  font-size: 1.1rem;
+}
+
+.error {
+  background: rgba(244, 67, 54, 0.2);
+  color: #ffcdd2;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  font-weight: 500;
+}
+
+.form {
+  margin-bottom: 1.5rem;
+}
+
+.inputGroup {
+  margin-bottom: 1.5rem;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #c8e6c9;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f1f8e9;
+  font-family: inherit;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.inputGroup input:disabled {
+  background: rgba(255, 255, 255, 0.02);
+  color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.inputGroup input::placeholder {
+  color: #a5d6a7;
+  opacity: 0.7;
+}
+
+.passwordInput {
+  position: relative;
+}
+
+.passwordInput input {
+  padding-right: 3rem;
+}
+
+.showPasswordBtn {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  color: #a5d6a7;
+}
+
+.showPasswordBtn:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #c8e6c9;
+}
+
+.showPasswordBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+  position: relative;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #66bb6a 0%, #388e3c 100%);
+}
+
+.submitButton:disabled {
+  background: rgba(76, 175, 80, 0.5);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.loginLink {
+  text-align: center;
+  color: #a5d6a7;
+  font-size: 0.95rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.loginLink a {
+  color: #c8e6c9;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.loginLink a:hover {
+  color: #e8f5e9;
+  text-decoration: underline;
+}
+
+/* Animações suaves */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.inputGroup input {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .header p {
+    font-size: 1rem;
+  }
+  
+  .inputGroup input {
+    padding: 0.65rem;
+  }
+  
+  .submitButton {
+    padding: 0.85rem;
+    font-size: 1rem;
+  }
+}
+
+/* Estados de foco melhorados */
+.inputGroup input:focus {
+  transform: translateY(-1px);
+}
+
+/* Placeholder estilizado */
+.inputGroup input::-webkit-input-placeholder {
+  color: #a5d6a7;
+  opacity: 0.7;
+}
+
+.inputGroup input::-moz-placeholder {
+  color: #a5d6a7;
+  opacity: 0.7;
+}
+
+.inputGroup input:-ms-input-placeholder {
+  color: #a5d6a7;
+  opacity: 0.7;
+}
+
+.inputGroup input::-ms-input-placeholder {
+  color: #a5d6a7;
+  opacity: 0.7;
+}
+
+.inputGroup input::placeholder {
+  color: #a5d6a7;
+  opacity: 0.7;
+}
+
+/* Efeito de loading no botão */
+.submitButton:disabled {
+  position: relative;
+  overflow: hidden;
+}
+
+.submitButton:disabled::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: loading 1.5s infinite;
+}
+
+.inputGroup input[type="tel"] {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.helpText {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.inputGroup input:valid {
+  border-color: #4caf50;
+}
+
+.inputGroup input:invalid:not(:placeholder-shown) {
+  border-color: #ff6b6b;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}

@@ -1,0 +1,438 @@
+/* src/pages/Agendamento/Agendamento.module.css */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 80vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.header h1 {
+  color: #1a237e;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.header p {
+  color: #5a6268;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+/* Progresso */
+.progress {
+  margin-bottom: 3rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+}
+
+.progressSteps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.stepIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  flex: 1;
+}
+
+.stepNumber {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.stepNumber.active {
+  background: linear-gradient(135deg, #3949ab 0%, #283593 100%);
+  transform: scale(1.1);
+}
+
+.stepLabel {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progressBar {
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  position: relative;
+  margin: 0 25px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #3949ab, #283593);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+  box-shadow: 0 2px 8px rgba(57, 73, 171, 0.3);
+}
+
+/* Steps */
+.form {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e0e0e0;
+}
+
+.step {
+  padding: 3rem;
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+}
+
+.step h2 {
+  color: #1a237e;
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.step p {
+  color: #6c757d;
+  margin-bottom: 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* Serviços */
+.servicosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.servicoOption {
+  border: 3px solid #e9ecef;
+  border-radius: 16px;
+  padding: 2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.servicoOption:hover {
+  border-color: #3949ab;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(57, 73, 171, 0.25);
+}
+
+.servicoOption.selected {
+  border-color: #3949ab;
+  background: linear-gradient(135deg, #f0f4ff 0%, #e8edff 100%);
+  box-shadow: 0 8px 24px rgba(57, 73, 171, 0.35);
+  transform: translateY(-2px);
+}
+
+.servicoIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.servicoOption h3 {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Horários */
+.horariosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.horarioOption {
+  padding: 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  color: #495057;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.horarioOption:hover {
+  border-color: #3949ab;
+  background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(57, 73, 171, 0.2);
+}
+
+.horarioOption.selected {
+  border-color: #3949ab;
+  background: linear-gradient(135deg, #3949ab 0%, #283593 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(57, 73, 171, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Inputs */
+.inputGroup {
+  margin-bottom: 2rem;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.inputGroup input,
+.inputGroup textarea,
+.inputGroup select {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  background: white;
+  color: #2c3e50;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.inputGroup input:focus,
+.inputGroup textarea:focus,
+.inputGroup select:focus {
+  outline: none;
+  border-color: #3949ab;
+  box-shadow: 0 0 0 4px rgba(57, 73, 171, 0.15), 0 4px 12px rgba(57, 73, 171, 0.2);
+  transform: translateY(-1px);
+}
+
+.inputGroup textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.inputGroup select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+/* Resumo */
+.resumo {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2.5rem;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.resumoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.resumoItem:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.resumoItem strong {
+  color: #1a237e;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 120px;
+}
+
+.resumoItem span {
+  color: #2c3e50;
+  text-align: right;
+  font-weight: 600;
+  font-size: 1.1rem;
+  flex: 1;
+  padding-left: 1rem;
+}
+
+/* Botões */
+.stepButtons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: flex-end;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e9ecef;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .header {
+    padding: 1.5rem;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .progressSteps {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  
+  .stepIndicator {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .stepNumber {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .progressBar {
+    display: none;
+  }
+  
+  .servicosGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .horariosGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stepButtons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .step {
+    padding: 2rem 1.5rem;
+  }
+  
+  .resumoItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .resumoItem span {
+    text-align: left;
+    padding-left: 0;
+  }
+}
+
+/* Melhorias de contraste e acessibilidade */
+.inputGroup input::placeholder,
+.inputGroup textarea::placeholder {
+  color: #adb5bd;
+  font-weight: 400;
+}
+
+.inputGroup input:disabled,
+.inputGroup textarea:disabled,
+.inputGroup select:disabled {
+  background: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+  border-color: #dee2e6;
+}
+
+/* Animações suaves */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step {
+  animation: fadeIn 0.5s ease;
+}
+
+/* Estados de foco melhorados */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #3949ab;
+  outline-offset: 2px;
+}
+
+/* Texto de ajuda */
+.helpText {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+  font-style: italic;
+}

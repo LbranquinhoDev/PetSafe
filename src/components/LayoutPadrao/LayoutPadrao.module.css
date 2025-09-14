@@ -1,0 +1,211 @@
+/* LayoutPadrao.module.css */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #0a2e1a 0%, #133e16 100%);
+}
+
+.conteudo {
+  flex: 1;
+  padding-top: 80px;
+}
+
+/* Variáveis de cores - Tema Verde */
+:root {
+  --primary: #2e7d32;
+  --primary-light: #4caf50;
+  --primary-dark: #1b5e20;
+  --secondary: #66bb6a;
+  --accent: #43a047;
+  --accent-light: #66bb6a;
+  --accent-dark: #388e3c;
+  --gold: #c8e6c9;
+  --gold-light: #e8f5e9;
+  --gold-dark: #a5d6a7;
+  --dark: #0a2e1a;
+  --dark-blue: #133e16;
+  --light: #f1f8e9;
+  --light-gray: #dcedc8;
+  --gray: #689f38;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  color: var(--light);
+  background: linear-gradient(135deg, #0a2e1a 0%, #133e16 100%);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Estilos para a Navbar com tema verde */
+.navbar {
+  background: rgba(20, 82, 35, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  text-decoration: none;
+}
+
+.navLinks {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.navLinks a {
+  color: var(--light);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+.navLinks a:hover {
+  color: var(--gold-light);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Estilos para o Footer com tema verde */
+.footer {
+  background: var(--primary-dark);
+  padding: 2rem 0;
+  margin-top: auto;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.footerSection {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footerSection h3 {
+  color: var(--gold-light);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.footerSection p, .footerSection a {
+  color: var(--light);
+  margin-bottom: 0.5rem;
+  display: block;
+  text-decoration: none;
+}
+
+.footerSection a:hover {
+  color: var(--gold-light);
+}
+
+.footerBottom {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Botões com tema verde */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btnPrimary {
+  background: var(--primary);
+  color: white;
+}
+
+.btnPrimary:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btnSecondary {
+  background: transparent;
+  color: var(--light);
+  border: 2px solid var(--primary);
+}
+
+.btnSecondary:hover {
+  background: var(--primary);
+  color: white;
+}
+
+/* Cards com tema verde */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .navbarContainer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .navLinks {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .footerContent {
+    flex-direction: column;
+  }
+  
+  .container {
+    padding: 0 15px;
+  }
+}
