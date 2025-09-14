@@ -278,6 +278,25 @@
   animation: loading 1.5s infinite;
 }
 
+.inputGroup input[type="tel"] {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.helpText {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.inputGroup input:valid {
+  border-color: #4caf50;
+}
+
+.inputGroup input:invalid:not(:placeholder-shown) {
+  border-color: #ff6b6b;
+}
+
 @keyframes loading {
   0% {
     left: -100%;

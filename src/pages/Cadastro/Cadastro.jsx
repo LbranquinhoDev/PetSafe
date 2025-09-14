@@ -1,4 +1,3 @@
-// src/pages/Cadastro/Cadastro.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -21,15 +20,43 @@ export default function Cadastro() {
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    const formatPhoneNumber = (value) => {
+    
+    const numbers = value.replace(/\D/g, '');
+    
+   
+    const limitedNumbers = numbers.slice(0, 11);
+    
+    
+    if (limitedNumbers.length <= 2) {
+      return limitedNumbers;
+    } else if (limitedNumbers.length <= 7) {
+      return `(${limitedNumbers.slice(0, 2)}) ${limitedNumbers.slice(2)}`;
+    } else {
+      return `(${limitedNumbers.slice(0, 2)}) ${limitedNumbers.slice(2, 7)}-${limitedNumbers.slice(7, 11)}`;
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+  if (name === 'telefone') {
+      // Aplica máscara para telefone
+      const formattedValue = formatPhoneNumber(value);
+      setFormData(prev => ({
+        ...prev,
+        [name]: formattedValue
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
+
+
+const handleSubmit = async (e) => {
     e.preventDefault();
     
     console.log('Dados do formulário:', formData);
@@ -54,30 +81,42 @@ export default function Cadastro() {
       setError('Email inválido');
       return;
     }
+
+    // Validação do telefone (opcional, mas deve ter 11 dígitos se preenchido)
+    if (formData.telefone && formData.telefone.replace(/\D/g, '').length !== 11) {
+      setError('Telefone deve ter 11 dígitos (DDD + número)');
+      return;
+    }
     
     try {
       setError('');
       setLoading(true);
       
-      // Remover confirmPassword dos dados enviados
+      // Remover confirmPassword e formatar telefone (apenas números)
       const { confirmPassword, ...userData } = formData;
-      console.log('Dados para registro:', userData);
+      const userDataToSave = {
+        ...userData,
+        telefone: userData.telefone.replace(/\D/g, '') // Remove não-dígitos
+      };
       
-      const result = register(userData);
+      console.log('Dados para registro:', userDataToSave);
+      
+      // Chamar função de registro
+      const result = await register(userDataToSave);
       console.log('Resultado do registro:', result);
       
-      if (result.success) {
+      if (result && result.success) {
         alert('Cadastro realizado com sucesso!');
         navigate('/');
       } else {
-        setError(result.message || 'Erro ao criar conta');
+        setError(result?.message || 'Erro ao criar conta');
       }
     } catch (error) {
       console.error('Erro no cadastro:', error);
-      setError('Falha ao criar conta');
+      setError('Falha ao criar conta: ' + error.message);
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (
@@ -184,10 +223,8 @@ export default function Cadastro() {
             type="submit" 
             disabled={loading}
             className={styles.submitButton}
-            text='Criar Conta'
           >
             {loading ? 'Criando conta...' : 'Criar Conta'}
-            
           </Button>
         </form>
 

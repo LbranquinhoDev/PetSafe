@@ -81,22 +81,32 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (userData) => {
-    console.log('Tentando registrar:', userData);
-    setLoading(true);
-    try {
-      const result = await firebaseAuth.register(userData);
-      console.log('Resultado do registro:', result);
-      return result;
-    } catch (error) {
-      console.error('Erro no registro:', error);
-      return { 
-        success: false, 
-        message: error.message || 'Erro no cadastro' 
-      };
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    // 1. Criar usuário no Firebase Auth
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      userData.email,
+      userData.password
+    );
+
+    // 2. Salvar dados adicionais no Firestore
+    await setDoc(doc(db, 'users', userCredential.user.uid), {
+      name: userData.name,
+      email: userData.email,
+      telefone: userData.telefone || '',
+      createdAt: new Date().toISOString()
+    });
+
+    // 3. Atualizar perfil com nome
+    await updateProfile(userCredential.user, {
+      displayName: userData.name
+    });
+
+    return { success: true, user: userCredential.user };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
 
   const logout = async () => {
     try {

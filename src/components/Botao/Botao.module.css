@@ -1,73 +1,192 @@
 /* From Uiverse.io by reglobby */ 
-.input {
-  display: flex;
-  flex-direction: column;
-  width: 200px;
-  background-color: #0D1117;
-  justify-content: center;
-  border-radius: 5px;
-}
-
-.value {
-  background-color: transparent;
-  border: none;
-  padding: 10px;
-  color: white;
-  display: flex;
+.animatedButton {
   position: relative;
-  gap: 5px;
-  cursor: pointer;
-  border-radius: 4px;
+  display: flex;
   align-items: center;
-  font-size: 14px;
-  transition: all 0.2s ease;
+  gap: 4px;
+  padding: 16px 36px;
+  border: 4px solid;
+  border-color: transparent;
+  font-size: 16px;
+  background-color: inherit;
+  border-radius: 100px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.value:not(:active):hover,
-.value:focus {
-  background-color: #21262C;
-}
-
-.value:focus,
-.value:active {
-  background-color: #1A1F24;
-  outline: none;
-}
-
-.value::before {
-  content: "";
+.animatedButton svg {
   position: absolute;
-  top: 5px;
-  left: -10px;
-  width: 5px;
-  height: 80%;
-  background-color: #2F81F7;
-  border-radius: 5px;
+  width: 24px;
+  z-index: 9;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.arr1 {
+  right: 16px;
+}
+
+.arr2 {
+  left: -25%;
+}
+
+.circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.value:focus::before,
-.value:active::before {
+.text {
+  position: relative;
+  z-index: 1;
+  transform: translateX(-12px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animatedButton:hover {
+  box-shadow: 0 0 0 12px transparent;
+  border-radius: 12px;
+}
+
+.animatedButton:hover .arr1 {
+  right: -25%;
+}
+
+.animatedButton:hover .arr2 {
+  left: 16px;
+}
+
+.animatedButton:hover .text {
+  transform: translateX(12px);
+}
+
+.animatedButton:active {
+  transform: scale(0.95);
+}
+
+.animatedButton:hover .circle {
+  width: 220px;
+  height: 220px;
   opacity: 1;
 }
 
-.value svg {
-  width: 15px;
-  height: 15px;
-  flex-shrink: 0;
+/* Variante Primária (Estilo Original) */
+.primary {
+  color: greenyellow;
+  box-shadow: 0 0 0 2px greenyellow;
 }
 
-/* Estilo para item ativo */
-.value.active {
-  background-color: #1A1F24;
+.primary svg {
+  fill: greenyellow;
 }
 
-.value.active::before {
-  opacity: 1;
+.primary .circle {
+  background-color: greenyellow;
 }
 
-.value.active:focus,
-.value.active:active {
-  background-color: #1A1F24;
+.primary:hover {
+  color: #212121;
+}
+
+.primary:hover svg {
+  fill: #212121;
+}
+
+.primary:active {
+  box-shadow: 0 0 0 4px greenyellow;
+}
+
+/* Variante Secundária (Estilo Pet) */
+.secondary {
+  color: #FFD700;
+  box-shadow: 0 0 0 2px #FFD700;
+}
+
+.secondary svg {
+  fill: #FFD700;
+}
+
+.secondary .circle {
+  background-color: #FFD700;
+}
+
+.secondary:hover {
+  color: #6a11cb;
+}
+
+.secondary:hover svg {
+  fill: #6a11cb;
+}
+
+.secondary:active {
+  box-shadow: 0 0 0 4px #FFD700;
+}
+
+/* Variante Terciária (Coral) */
+.tertiary {
+  color: #FF6B6B;
+  box-shadow: 0 0 0 2px #FF6B6B;
+}
+
+.tertiary svg {
+  fill: #FF6B6B;
+}
+
+.tertiary .circle {
+  background-color: #FF6B6B;
+}
+
+.tertiary:hover {
+  color: white;
+}
+
+.tertiary:hover svg {
+  fill: white;
+}
+
+.tertiary:active {
+  box-shadow: 0 0 0 4px #FF6B6B;
+}
+
+/* Largura total */
+.fullWidth {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Estado desabilitado */
+.animatedButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.animatedButton:disabled:hover {
+  box-shadow: 0 0 0 2px currentColor;
+  border-radius: 100px;
+}
+
+.animatedButton:disabled:hover .arr1 {
+  right: 16px;
+}
+
+.animatedButton:disabled:hover .arr2 {
+  left: -25%;
+}
+
+.animatedButton:disabled:hover .text {
+  transform: translateX(-12px);
+}
+
+.animatedButton:disabled:hover .circle {
+  width: 20px;
+  height: 20px;
+  opacity: 0;
 }
